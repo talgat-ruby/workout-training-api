@@ -7,13 +7,15 @@ type ListWorkoutReq interface {
 }
 
 type ListWorkoutResp interface {
-	GetWorkouts() []WorkoutResp
+	GetList() []WorkoutListResp
 }
 
-type WorkoutResp interface {
+type WorkoutListResp interface {
 	GetID() string
 	GetUserID() string
 	GetStatus() string
+	GetScheduledTimes() []time.Time
 	GetCreatedAt() time.Time
 	GetUpdatedAt() time.Time
+	GetExercises() []ExerciseResp
 }

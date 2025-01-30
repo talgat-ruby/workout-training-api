@@ -1,8 +1,11 @@
 package database
 
+import "time"
+
 type CreateWorkoutReq interface {
 	GetUserID() string
-	GetExercises() [][]interface{}
+	GetExerciseIDs() []string
+	GetScheduledTimes() []time.Time
 }
 
 type CreateWorkoutResp interface {
