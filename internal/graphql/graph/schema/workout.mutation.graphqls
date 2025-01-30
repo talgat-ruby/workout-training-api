@@ -1,0 +1,8 @@
+extend type Mutation {
+    createWorkout(workout: Workout!): Boolean! @auth
+}
+
+
+enum Workout {
+
+}
