@@ -6,5 +6,5 @@ type GenerateWorkoutReportsReq interface {
 
 type GenerateWorkoutReportsRes interface {
 	GetProgress() string
-	GetWorkouts() string
+	GetWorkouts() WorkoutListResp
 }
