@@ -1,8 +1,20 @@
-extend type Mutation {
-    createWorkout(workout: Workout!): Boolean! @auth
+extend type Query {
+    workouts: [Workout!]!
 }
 
+extend type Mutation {
+    createWorkout(name: String!): Boolean!
+    addExercise(workoutId: ID!, exerciseId: ID!): Boolean!
+}
 
-enum Workout {
+type Workout {
+    id: ID!
+    name: String!
+    exercises: Exercise
+}
 
+type Exercise {
+    id:  ID!
+    name: String!
+    #    TODO check db
 }
