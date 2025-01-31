@@ -1,20 +1,19 @@
 package controller
 
+import "time"
+
 type CreateWorkoutReq interface {
-    GetExercises() []Exercise
-    GetDate() string
+	GetExercises() []Exercise
+	GetDate() time.Time
 }
 
-type CreateWorkoutResp interface {
-    GetID() string
-}
+type CreateWorkoutResp interface{}
 
 type Exercise interface {
-    GetName() string
-    GetDescription() string
-    GetCategory() string
-    GetRepetitions() int
-    GetSets() int
-    GetWeight() float64
+	GetName() string
+	GetDescription() string
+	GetCategory() string
+	GetRepetitions() int
+	GetSets() int
+	GetWeight() float64
 }
-

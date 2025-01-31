@@ -1,9 +1,10 @@
 package controller
 
+import "time"
+
 type ScheduleWorkoutReq interface {
-    GetWorkoutID() string
-    GetDate() string
+	GetWorkoutID() string
+	GetDate() time.Time
 }
 
 type ScheduleWorkoutResp interface{}
-

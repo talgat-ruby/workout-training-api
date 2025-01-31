@@ -1,31 +1,21 @@
 package controller
 
 import (
-    "time"
+	"time"
 )
 
 type ListWorkoutsReq interface {
-    GetUserID() string
-    GetStatus() string
+	GetUserID() string
+	GetStatus() string
 }
 
 type ListWorkoutsResp interface {
-    GetWorkouts() []Workout
+	GetWorkouts() []Workout
 }
 
 type Workout interface {
-    GetID() string
-    GetExercises() []Exercise
-    GetDate() string
-    GetComments() string
+	GetID() string
+	GetExercises() []Exercise
+	GetDate() time.Time
+	GetComments() string
 }
-
-type Exercise interface {
-    GetName() string
-    GetDescription() string
-    GetCategory() string
-    GetRepetitions() int
-    GetSets() int
-    GetWeight() float64
-}
-
