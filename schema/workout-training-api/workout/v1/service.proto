@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package workout_training_api.ping.v1;
+
+option go_package="./internal/grpc/generated/workout-training-api/workout/v1";
+
+import "schema/workout-training-api/workout/v1/create_workout.proto";
+import "schema/workout-training-api/workout/v1/get_workout_report.proto";
+import "schema/workout-training-api/workout/v1/update_workout.proto";
+import "schema/workout-training-api/workout/v1/delete_workout.proto";
+import "schema/workout-training-api/workout/v1/list_workout.proto";
+import "model.proto";
+
+service WorkoutService {
+  rpc CreateWorkout (CreateWorkoutRequest) returns (WorkoutResponse);
+
+  rpc UpdateWorkout (UpdateWorkoutRequest) returns (WorkoutResponse);
+
+  rpc DeleteWorkout (DeleteWorkoutRequest) returns (WorkoutDeleteResponse);
+
+  rpc ListWorkouts (ListWorkoutsRequest) returns (ListWorkoutsResponse);
+
+//  rpc WorkoutReport () returns ();
+}

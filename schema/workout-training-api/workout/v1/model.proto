@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package workout_training_api.ping.v1;
+
+option go_package="./internal/grpc/generated/workout-training-api/workout/v1";
+
+import "google/protobuf/timestamp.proto";
+
+message Workout {
+  string workout_id = 1;
+  string user_id = 2;
+  string name = 3;
+  string description = 4;
+  repeated Exercise exercises = 5;
+  Status status = 6;
+  google.protobuf.Timestamp scheduled_date = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+message Exercise {
+  string exercise_id = 1;
+  MuscleGroup muscle_group = 2;
+  string name = 3;
+  uint32 sets = 4;
+  uint32 reps_per_set = 5;
+  float weight_kg = 6;
+  string notes = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+message WorkoutResponse {
+  Workout workout = 1;
+}
+
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_PENDING = 1;
+  STATUS_IN_PROGRESS = 2;
+  STATUS_COMPLETED = 3;
+  STATUS_CANCELLED = 4;
+}
+
+enum MuscleGroup {
+  MUSCLE_GROUP_UNSPECIFIED = 0;
+  MUSCLE_GROUP_CHEST = 1;
+  MUSCLE_GROUP_BACK = 2;
+  MUSCLE_GROUP_SHOULDERS = 3;
+  MUSCLE_GROUP_BICEPS = 4;
+  MUSCLE_GROUP_TRICEPS = 5;
+  MUSCLE_GROUP_LEGS = 6;
+  MUSCLE_GROUP_CALVES = 7;
+  MUSCLE_GROUP_ABS = 8;
+  MUSCLE_GROUP_FOREARMS = 9;
+  MUSCLE_GROUP_TRAPS = 10;
+  MUSCLE_GROUP_GLUTES = 11;
+  MUSCLE_GROUP_HAMSTRINGS = 12;
+  MUSCLE_GROUP_QUADRICEPS = 13;
+  MUSCLE_GROUP_FULL_BODY = 14;
+  MUSCLE_GROUP_CARDIO = 15;
+}
