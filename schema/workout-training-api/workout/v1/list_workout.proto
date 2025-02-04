@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package workout_training_api.ping.v1;
+
+option go_package="./internal/grpc/generated/workout-training-api/workout/v1";
+
+import "google/protobuf/timestamp.proto";
+import "model.proto";
+
+message ListWorkoutsRequest {
+  string user_id = 1;
+  optional Status status = 2;
+  google.protobuf.Timestamp time_range_start = 3;
+  google.protobuf.Timestamp time_range_end = 4;
+}
+
+message ListWorkoutsResponse {
+  repeated WorkoutResponse workouts = 1;
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package workout_training_api.ping.v1;
+
+option go_package="./internal/grpc/generated/workout-training-api/workout/v1";
+import "model.proto";
+
+
+message DeleteWorkoutRequest {
+  string workout_id = 1;
+}
+
+message WorkoutDeleteResponse {
+  Workout workout = 1;
+}
