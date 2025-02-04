@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"time"
 )
 
 type SignInResp struct {
@@ -15,14 +16,22 @@ type SignUpResp struct {
 }
 
 type Workout struct {
-	ID        string      `json:"id"`
-	Name      string      `json:"name"`
-	Exercises []*Exercise `json:"exercises"`
+	ID             string      `json:"id"`
+	Name           string      `json:"name"`
+	Description    string      `json:"description"`
+	Exercises      []*Exercise `json:"exercises"`
+	ScheduledTimes []time.Time `json:"date"`
 }
 
+// Exercise Copied and pasted from controller
 type Exercise struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Category    string `json:"category"`
+	Repetitions int    `json:"repetitions"`
+	Sets        int    `json:"sets"`
+	Weight      int    `json:"weight"`
 }
 
 func (w *Workout) UnmarshalGQL(v any) error {

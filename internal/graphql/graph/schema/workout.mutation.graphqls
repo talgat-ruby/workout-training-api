@@ -1,20 +1,26 @@
 extend type Query {
-    workouts: [Workout!]!
+    listWorkouts: [Workout!]!
 }
 
 extend type Mutation {
     createWorkout(name: String!): Boolean!
-    addExercise(workoutId: ID!, exerciseId: ID!): Boolean!
+    deleteWorkout(workoutID: ID!): Boolean!
+    #    addExercise(workoutId: ID!, exerciseId: ID!): Boolean!
 }
 
 type Workout {
     id: ID!
     name: String!
-    exercises: Exercise
+    exercises: [Exercise]!
+    description: String!
+    scheduledTimes: Int!
 }
 
 type Exercise {
     id:  ID!
     name: String!
-    #    TODO check db
+    category: String!
+    repetitions: Int!
+    sets: Int!
+    weight: Float!
 }
