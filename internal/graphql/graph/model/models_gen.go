@@ -63,3 +63,33 @@ func (w Workout) MarshalGQL(writer io.Writer) {
 	}
 	writer.Write(jsonData)
 }
+
+func (e *Exercise) UnmarshalExerciseGQL(v any) error {
+	data, ok := v.(map[string]any)
+	if !ok {
+		return fmt.Errorf("Exercise should be an object")
+	}
+
+	if id, ok := data["id"].(string); ok {
+		e.ID = id
+	} else {
+		return fmt.Errorf("Exercise ID must be a string")
+	}
+
+	if name, ok := data["name"].(string); ok {
+		e.Name = name
+	} else {
+		return fmt.Errorf("Exercise Name must be a string")
+	}
+
+	return nil
+}
+
+func (e Exercise) MarshalExerciseGQL(writer io.Writer) {
+	jsonData, err := json.Marshal(w)
+	if err != nil {
+		fmt.Fprint(writer, "null")
+		return
+	}
+	writer.Write(jsonData)
+}

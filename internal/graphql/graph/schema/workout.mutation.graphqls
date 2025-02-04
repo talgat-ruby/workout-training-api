@@ -3,7 +3,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    createWorkout(name: String!): Boolean!
+    createWorkout(name: String!, description: String!, exercises: [Exercise]!, scheduledTime: String!): Boolean!
     deleteWorkout(workoutID: ID!): Boolean!
     #    addExercise(workoutId: ID!, exerciseId: ID!): Boolean!
 }
