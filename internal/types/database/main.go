@@ -2,7 +2,9 @@ package database
 
 import "context"
 
-type User interface {
+var DB *gorm.DB
+
+type UserService interface {
 	CreateUser(context.Context, CreateUserReq) (CreateUserResp, error)
 	FindUser(context.Context, FindUserReq) (FindUserResp, error)
 }
