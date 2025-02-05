@@ -1,6 +1,10 @@
 package database
 
-import "context"
+import (
+	"context"
+	"database/sql"
+	"fmt"
+)
 
 type User interface {
 	CreateUser(context.Context, CreateUserReq) (CreateUserResp, error)
@@ -20,4 +24,24 @@ type Workout interface {
 	DeleteWorkout(context.Context, DeleteWorkoutReq) (DeleteWorkoutResp, error)
 	ListWorkout(context.Context, ListWorkoutReq) (ListWorkoutResp, error)
 	GenerateWorkoutReports(context.Context, GenerateWorkoutReportsReq) (GenerateWorkoutReportsRes, error)
+}
+
+type Database struct {
+	DB *sql.DB
+}
+
+func InitDB() (*Database, error) {
+	connStr := "postgres://postgres:yourpassword@localhost:5432/postgres?sslmode=disable" // Замени пароль
+
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		panic(fmt.Sprintf("Failed to connect to database: %v", err))
+	}
+
+	if err := db.Ping(); err != nil {
+		panic(fmt.Sprintf("Database is not responding: %v", err))
+	}
+
+	fmt.Println("Connected to the database")
+	return &Database{DB: db}, nil
 }
