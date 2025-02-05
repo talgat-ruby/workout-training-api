@@ -1,11 +1,18 @@
-package graph
+package graphql
 
 import (
 	"context"
 	"fmt"
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
 	"log"
 	"log/slog"
 	"net/http"
+	"workout-training-api/internal/config"
+	"workout-training-api/internal/graphql/graph"
+	"workout-training-api/internal/graphql/graph/directives"
+	"workout-training-api/internal/graphql/graph/middleware"
+	"workout-training-api/internal/types/controller"
 )
 
 type GraphQL struct {

@@ -3,7 +3,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    createWorkout(name: String!, description: String!, exercises: [Exercise]!, scheduledTime: String!): Boolean!
+    createWorkout(name: String!, description: String!, exercises: [ExerciseInput]!, scheduledTime: String!): Boolean!
     deleteWorkout(workoutID: ID!): Boolean!
     #    addExercise(workoutId: ID!, exerciseId: ID!): Boolean!
 }
@@ -17,6 +17,15 @@ type Workout {
 }
 
 type Exercise {
+    id:  ID!
+    name: String!
+    category: String!
+    repetitions: Int!
+    sets: Int!
+    weight: Float!
+}
+
+input ExerciseInput {
     id:  ID!
     name: String!
     category: String!
