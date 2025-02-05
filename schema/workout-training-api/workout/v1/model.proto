@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package workout_training_api.ping.v1;
 
-option go_package="./internal/grpc/generated/workout-training-api/workout/v1";
+option go_package="github.com/talgat-ruby/workout-training-api/internal/grpc/generated/workout-training-api/workout/v1";
 
 import "google/protobuf/timestamp.proto";
 
@@ -13,26 +13,26 @@ message Workout {
   string description = 4;
   repeated Exercise exercises = 5;
   Status status = 6;
-  google.protobuf.Timestamp scheduled_date = 7;
-  google.protobuf.Timestamp created_at = 8;
-  google.protobuf.Timestamp updated_at = 9;
+  repeated Comment comments = 7;
+  google.protobuf.Timestamp scheduled_date = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
 }
 
 message Exercise {
   string exercise_id = 1;
   MuscleGroup muscle_group = 2;
-  string name = 3;
-  uint32 sets = 4;
-  uint32 reps_per_set = 5;
-  float weight_kg = 6;
-  string notes = 7;
-  google.protobuf.Timestamp created_at = 8;
-  google.protobuf.Timestamp updated_at = 9;
+  Category category = 3;
+  string name = 4;
+  uint32 sets = 5;
+  uint32 reps_per_set = 6;
+  float weight_kg = 7;
+  string notes = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
 }
 
-message WorkoutResponse {
-  Workout workout = 1;
-}
+
 
 enum Status {
   STATUS_UNSPECIFIED = 0;
@@ -59,4 +59,16 @@ enum MuscleGroup {
   MUSCLE_GROUP_QUADRICEPS = 13;
   MUSCLE_GROUP_FULL_BODY = 14;
   MUSCLE_GROUP_CARDIO = 15;
+}
+
+enum Category {
+  CATEGORY_UNSPECIFIED = 0;
+  CATEGORY_STRENGTH = 1;
+  CATEGORY_CARDIO = 2;
+  CATEGORY_FLEXIBILITY = 3;
+  CATEGORY_BALANCE = 4;
+}
+
+message Comment {
+  string comment=1;
 }

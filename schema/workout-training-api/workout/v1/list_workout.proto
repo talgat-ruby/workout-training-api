@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package workout_training_api.ping.v1;
 
-option go_package="./internal/grpc/generated/workout-training-api/workout/v1";
+option go_package="github.com/talgat-ruby/workout-training-api/internal/grpc/generated/workout-training-api/workout/v1";
 
 import "google/protobuf/timestamp.proto";
 import "model.proto";
@@ -15,5 +15,5 @@ message ListWorkoutsRequest {
 }
 
 message ListWorkoutsResponse {
-  repeated WorkoutResponse workouts = 1;
+  repeated Workout workouts = 1;
 }
