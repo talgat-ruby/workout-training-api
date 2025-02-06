@@ -14,7 +14,7 @@ message Workout {
   repeated Exercise exercises = 5;
   Status status = 6;
   repeated Comment comments = 7;
-  google.protobuf.Timestamp scheduled_date = 8;
+  repeated google.protobuf.Timestamp scheduled_date = 8;
   google.protobuf.Timestamp created_at = 9;
   google.protobuf.Timestamp updated_at = 10;
 }

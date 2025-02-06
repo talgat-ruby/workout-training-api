@@ -1,17 +1,20 @@
 package controller
 
-import "time"
+import (
+	"time"
+	"workout-training-api/internal/postgres/db_types/workout"
+)
 
 type CreateWorkoutReq interface {
 	GetName() string
 	GetDescription() string
-	GetExercises() []Exercise
+	GetExercises() []workout.Exercise
 	GetDate() time.Time
 	GetScheduledDate() []time.Time
 }
 
 type CreateWorkoutResp interface {
-	GetWorkout() Workout
+	GetWorkout() workout.Workout
 }
 
 type Exercise interface {

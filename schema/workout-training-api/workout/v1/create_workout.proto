@@ -14,8 +14,7 @@ message CreateWorkoutRequest {
   string name = 2;
   string description = 3;
   repeated Exercise exercises = 4;
-  repeated Comment comment = 5;
-  google.protobuf.Timestamp scheduled_time = 6;
+  google.protobuf.Timestamp scheduled_time = 5;
 }
 
 message CreateWorkoutResponse {

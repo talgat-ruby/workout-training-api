@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"time"
+	"workout-training-api/internal/postgres/db_types/workout"
 )
 
 type ListWorkoutsReq interface {
@@ -10,12 +10,5 @@ type ListWorkoutsReq interface {
 }
 
 type ListWorkoutsResp interface {
-	GetWorkouts() []Workout
-}
-
-type Workout interface {
-	GetID() string
-	GetExercises() []Exercise
-	GetDate() time.Time
-	GetComments() string
+	GetWorkouts() []workout.Workout
 }

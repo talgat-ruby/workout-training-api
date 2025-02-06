@@ -221,17 +221,17 @@ func (Category) EnumDescriptor() ([]byte, []int) {
 }
 
 type Workout struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	WorkoutId     string                 `protobuf:"bytes,1,opt,name=workout_id,json=workoutId,proto3" json:"workout_id,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	Exercises     []*Exercise            `protobuf:"bytes,5,rep,name=exercises,proto3" json:"exercises,omitempty"`
-	Status        Status                 `protobuf:"varint,6,opt,name=status,proto3,enum=workout_training_api.ping.v1.Status" json:"status,omitempty"`
-	Comments      []*Comment             `protobuf:"bytes,7,rep,name=comments,proto3" json:"comments,omitempty"`
-	ScheduledDate *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=scheduled_date,json=scheduledDate,proto3" json:"scheduled_date,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	WorkoutId     string                   `protobuf:"bytes,1,opt,name=workout_id,json=workoutId,proto3" json:"workout_id,omitempty"`
+	UserId        string                   `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Name          string                   `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                   `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	Exercises     []*Exercise              `protobuf:"bytes,5,rep,name=exercises,proto3" json:"exercises,omitempty"`
+	Status        Status                   `protobuf:"varint,6,opt,name=status,proto3,enum=workout_training_api.ping.v1.Status" json:"status,omitempty"`
+	Comments      []*Comment               `protobuf:"bytes,7,rep,name=comments,proto3" json:"comments,omitempty"`
+	ScheduledDate []*timestamppb.Timestamp `protobuf:"bytes,8,rep,name=scheduled_date,json=scheduledDate,proto3" json:"scheduled_date,omitempty"`
+	CreatedAt     *timestamppb.Timestamp   `protobuf:"bytes,9,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp   `protobuf:"bytes,10,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -315,7 +315,7 @@ func (x *Workout) GetComments() []*Comment {
 	return nil
 }
 
-func (x *Workout) GetScheduledDate() *timestamppb.Timestamp {
+func (x *Workout) GetScheduledDate() []*timestamppb.Timestamp {
 	if x != nil {
 		return x.ScheduledDate
 	}
@@ -527,7 +527,7 @@ var file_workout_training_api_workout_v1_model_proto_rawDesc = string([]byte{
 	0x61, 0x70, 0x69, 0x2e, 0x70, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6f, 0x6d, 0x6d,
 	0x65, 0x6e, 0x74, 0x52, 0x08, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x41, 0x0a,
 	0x0e, 0x73, 0x63, 0x68, 0x65, 0x64, 0x75, 0x6c, 0x65, 0x64, 0x5f, 0x64, 0x61, 0x74, 0x65, 0x18,
-	0x08, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
+	0x08, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d,
 	0x70, 0x52, 0x0d, 0x73, 0x63, 0x68, 0x65, 0x64, 0x75, 0x6c, 0x65, 0x64, 0x44, 0x61, 0x74, 0x65,
 	0x12, 0x39, 0x0a, 0x0a, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x61, 0x74, 0x18, 0x09,
