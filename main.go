@@ -1,11 +1,18 @@
 package workout_training_api
 
+import (
+	"context"
+	"workout-training-api/internal/config"
+	"workout-training-api/internal/constant"
+	"workout-training-api/pkg/logger"
+)
+
 func main() {
 
 	//ctx, cancel := context.WithCancel(context.Background())
-	//
+
 	//// config
-	//conf := config.New(ctx)
+	conf := config.New(ctx)
 	//
 	//// logger
 	//log := logger.New(conf.ENV != constant.EnvironmentLocal)

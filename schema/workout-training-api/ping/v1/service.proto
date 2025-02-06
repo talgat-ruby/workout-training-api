@@ -4,8 +4,8 @@ package workout_training_api.ping.v1;
 
 import "workout-training-api/ping/v1/ping.proto";
 
-option go_package="github.com/talgat-ruby/workout-training-api/internal/grpc/generated/create_workout.proto-training-api/ping/v1";
+option go_package="workout-training-api/internal/grpc/generated/workout-training-api/ping/v1";
 
-service PingSerive {
+service PingService {
   rpc Ping(PingRequest) returns (PingResponse);
 }

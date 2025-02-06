@@ -2,8 +2,7 @@ syntax = "proto3";
 
 package workout_training_api.ping.v1;
 
-option go_package="github.com/talgat-ruby/workout-training-api/internal/grpc/generated/workout-training-api/workout/v1";
-import "model.proto";
+option go_package="workout-training-api/internal/grpc/generated/workout-training-api/workout/v1";
 
 
 message DeleteWorkoutRequest {
