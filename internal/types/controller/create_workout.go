@@ -7,6 +7,7 @@ type CreateWorkoutReq interface {
 	GetDescription() string
 	GetExercises() []Exercise
 	GetDate() time.Time
+	GetScheduledDate() []time.Time
 }
 
 type CreateWorkoutResp interface {

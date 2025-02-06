@@ -6,12 +6,13 @@ import (
 	"log"
 	"log/slog"
 	"net/http"
+	"workout-training-api/internal/types/controller"
 )
 
 type GraphQL struct {
 	conf   *config.APIGraphQLConfig
 	logger *slog.Logger
-	ctrl   controller.Controller
+	ctrl   contr 1 	oller.Controller
 }
 
 func New(conf *config.APIGraphQLConfig, logger *slog.Logger, ctrl controller.Controller) *GraphQL {

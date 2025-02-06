@@ -39,7 +39,7 @@ type Exercise struct {
 	Sets        int                       `db:"sets" json:"sets"`
 	RepsPerSet  int                       `db:"reps_per_set" json:"reps_per_set"`
 	WeightKg    float64                   `db:"weight_kg" json:"weight_kg,omitempty"`
-	Notes       float64                   `db:"notes" json:"notes,omitempty"`
+	Notes       string                    `db:"notes" json:"notes,omitempty"`
 	CreatedAt   *time.Time                `db:"created_at" json:"created_at"`
 	UpdatedAt   *time.Time                `db:"updated_at" json:"updated_at"`
 }

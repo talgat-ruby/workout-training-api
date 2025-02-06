@@ -12,44 +12,86 @@ import (
 	"workout-training-api/internal/types/database"
 )
 
-// CreateWorkout implements the controller interface
-func (w *Workout) CreateWorkout(ctx context.Context, req controller.CreateWorkoutReq) (*controller.CreateWorkoutResp, error) {
+func (w *Workout) CreateWorkout(ctx context.Context, req controller.CreateWorkoutReq) (*workout.Workout, error) {
 	log := w.logger.With(slog.String("handler", "CreateWorkout"))
 
-	if req == nil {
-		log.ErrorContext(ctx, "req is nil")
-		return nil, fmt.Errorf("req is nil")
+	if err := validateCreateWorkoutRequest(req); err != nil {
+		log.ErrorContext(ctx, "invalid request", slog.Any("error", err))
+		return nil, fmt.Errorf("invalid request: %w", err)
 	}
 
-	// Get user from context
 	user, ok := ctx.Value(constant.ContextUser).(*authentication.UserData)
 	if !ok {
-		return nil, fmt.Errorf("user not found in context")
+		return nil, fmt.Errorf("failed to get user from context: user authentication required")
 	}
 
-	// Create database request
 	dbReq := newCreateWorkoutDBReq(user.ID, req)
 	dbResp, err := w.db.CreateWorkout(ctx, dbReq)
 	if err != nil {
 		log.ErrorContext(ctx, "db request failed", slog.Any("error", err))
-		return nil, fmt.Errorf("db request failed: %w", err)
+		return nil, fmt.Errorf("failed to create workout: %w", err)
 	}
 	if dbResp == nil {
-		return nil, nil
+		return nil, fmt.Errorf("workout creation failed: no response from database")
 	}
 
-	log.InfoContext(ctx, "success")
+	workoutResult := dbResp.GetWorkout()
+	log.InfoContext(ctx, "workout created successfully",
+		slog.String("workout_id", workoutResult.WorkoutID),
+		slog.String("user_id", user.ID),
+		slog.Int("exercise_count", len(req.GetExercises())))
 
-	return dbResp.GetWorkout(), nil
+	return &workoutResult, nil
 }
 
-// Request structs
+func validateCreateWorkoutRequest(req controller.CreateWorkoutReq) error {
+	if req == nil {
+		return fmt.Errorf("request is nil")
+	}
+	if len(req.GetName()) == 0 {
+		return fmt.Errorf("workout name is required")
+	}
+	if len(req.GetExercises()) == 0 {
+		return fmt.Errorf("at least one exercise is required")
+	}
+	if len(req.GetScheduledDate()) == 0 {
+		return fmt.Errorf("scheduled date is required")
+	}
+	return nil
+}
+
 type createWorkoutDBReq struct {
 	userID        string
 	name          string
 	description   string
-	scheduledDate time.Time
+	scheduledDate []time.Time
 	exercises     []createExerciseDBReq
+}
+
+func (req *createWorkoutDBReq) GetDate() time.Time {
+	if len(req.scheduledDate) == 0 {
+		return time.Time{}
+	}
+	return req.scheduledDate[0]
+}
+
+func (req *createWorkoutDBReq) GetExercise() []string {
+	exercises := make([]string, len(req.exercises))
+	for i, ex := range req.exercises {
+		exercises[i] = ex.name
+	}
+	return exercises
+}
+
+func (req *createWorkoutDBReq) GetScheduledTimes() []time.Time {
+	return req.scheduledDate
+}
+
+func (req *createWorkoutDBReq) GetScheduledDate() time.Time {
+	if len(req.scheduledDate) == 0 {
+		return time.Time{}
+	}
+	return req.scheduledDate[0]
 }
 
 type createExerciseDBReq struct {
@@ -62,7 +104,6 @@ type createExerciseDBReq struct {
 	weight      float64
 }
 
-// Implement database.CreateWorkoutReq interface
 func (req *createWorkoutDBReq) GetUserID() string {
 	return req.userID
 }
@@ -75,19 +116,22 @@ func (req *createWorkoutDBReq) GetDescription() string {
 	return req.description
 }
 
-func (req *createWorkoutDBReq) GetScheduledDate() time.Time {
-	return req.scheduledDate
-}
-
-func (req *createWorkoutDBReq) GetExercises() []database.Exercise {
-	exercises := make([]database.Exercise, len(req.exercises))
+func (req *createWorkoutDBReq) GetExercises() []workout.Exercise {
+	exercises := make([]workout.Exercise, len(req.exercises))
 	for i, ex := range req.exercises {
-		exercises[i] = &ex
+		exercises[i] = workout.Exercise{
+			Name:        ex.name,
+			MuscleGroup: ex.muscleGroup,
+			Category:    ex.category,
+			Sets:        ex.sets,
+			RepsPerSet:  ex.repetitions,
+			WeightKg:    ex.weight,
+			Notes:       "",
+		}
 	}
 	return exercises
 }
 
-// Implement database.Exercise interface
 func (ex *createExerciseDBReq) GetName() string {
 	return ex.name
 }
@@ -116,7 +160,28 @@ func (ex *createExerciseDBReq) GetWeight() float64 {
 	return ex.weight
 }
 
-func newCreateWorkoutDBReq(userID string, req controller.CreateWorkoutReq) database.CreateWorkoutReq {
+func setDefaultWeight(weight float64) float64 {
+	if weight < 0 {
+		return 0
+	}
+	return weight
+}
+
+func setDefaultSets(sets int) int {
+	if sets <= 0 {
+		return 1
+	}
+	return sets
+}
+
+func setDefaultRepetitions(reps int) int {
+	if reps <= 0 {
+		return 1
+	}
+	return reps
+}
+
+func newCreateWorkoutDBReq(userID string, req database.CreateWorkoutReq) *database.CreateWorkoutReq {
 	dbExercises := make([]createExerciseDBReq, len(req.GetExercises()))
 	for i, ex := range req.GetExercises() {
 		dbExercises[i] = createExerciseDBReq{
@@ -124,12 +189,11 @@ func newCreateWorkoutDBReq(userID string, req controller.CreateWorkoutReq) datab
 			description: ex.GetDescription(),
 			muscleGroup: constant.MuscleGroup(ex.GetMuscleGroup()),
 			category:    constant.ExerciseCategory(ex.GetCategory()),
-			repetitions: ex.GetRepetitions(),
-			sets:        ex.GetSets(),
-			weight:      ex.GetWeight(),
+			repetitions: setDefaultRepetitions(ex.GetRepetitions()),
+			sets:        setDefaultSets(ex.GetSets()),
+			weight:      setDefaultWeight(ex.GetWeight()),
 		}
 	}
-
 	return &createWorkoutDBReq{
 		userID:        userID,
 		name:          req.GetName(),
@@ -139,7 +203,6 @@ func newCreateWorkoutDBReq(userID string, req controller.CreateWorkoutReq) datab
 	}
 }
 
-// Response struct
 type workoutResponse struct {
 	workout workout.Workout
 }

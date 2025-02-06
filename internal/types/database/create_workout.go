@@ -8,7 +8,7 @@ import (
 type CreateWorkoutReq interface {
 	GetUserID() string
 	GetName() string
-	GetExercises() []Exercise
+	GetExercises() []string
 	GetDate() time.Time
 	GetExercise() []string
 	GetScheduledTimes() []time.Time

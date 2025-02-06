@@ -10,9 +10,8 @@ import "workout-training-api/workout/v1/model.proto";
 
 message ListWorkoutsRequest {
   string user_id = 1;
-  optional Status status = 2;
-  google.protobuf.Timestamp time_range_start = 3;
-  google.protobuf.Timestamp time_range_end = 4;
+  google.protobuf.Timestamp time_range_start = 2;
+  google.protobuf.Timestamp time_range_end = 3;
 }
 
 message ListWorkoutsResponse {
