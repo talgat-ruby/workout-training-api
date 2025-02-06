@@ -11,7 +11,6 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	unsafe "unsafe"
-	v1 "workout-training-api/internal/grpc/generated/ping/v1"
 )
 
 const (
@@ -47,8 +46,8 @@ var file_workout_training_api_ping_v1_service_proto_rawDesc = string([]byte{
 })
 
 var file_workout_training_api_ping_v1_service_proto_goTypes = []any{
-	(*v1.PingRequest)(nil),  // 0: workout_training_api.ping.v1.PingRequest
-	(*v1.PingResponse)(nil), // 1: workout_training_api.ping.v1.PingResponse
+	(*PingRequest)(nil),  // 0: workout_training_api.ping.v1.PingRequest
+	(*PingResponse)(nil), // 1: workout_training_api.ping.v1.PingResponse
 }
 var file_workout_training_api_ping_v1_service_proto_depIdxs = []int32{
 	0, // 0: workout_training_api.ping.v1.PingService.Ping:input_type -> workout_training_api.ping.v1.PingRequest
@@ -65,6 +64,7 @@ func file_workout_training_api_ping_v1_service_proto_init() {
 	if File_workout_training_api_ping_v1_service_proto != nil {
 		return
 	}
+	file_workout_training_api_ping_v1_ping_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

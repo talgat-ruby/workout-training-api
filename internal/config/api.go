@@ -10,17 +10,17 @@ import (
 type APIConfig struct {
 	TokenSecret string
 	Pepper      string
-	Rest        *APIRestConfig
-	GraphQL     *APIGraphQLConfig
-	Grpc        *APIGrpcConfig
+	//Rest        *APIRestConfig
+	//GraphQL     *APIGraphQLConfig
+	Grpc *APIGrpcConfig
 }
 
 func newApiConfig(ctx context.Context) *APIConfig {
 	c := &APIConfig{
 		TokenSecret: os.Getenv("API_TOKEN_SECRET"),
 		Pepper:      os.Getenv("API_PEPPER"),
-		Rest:        newApiRestConfig(ctx),
-		Grpc:        newAPiGrpcConfig(ctx),
+		//Rest:        newApiRestConfig(ctx),
+		Grpc: newAPiGrpcConfig(ctx),
 	}
 
 	flag.StringVar(&c.TokenSecret, "api-token-secret", c.TokenSecret, "api token secret [API_TOKEN_SECRET]")

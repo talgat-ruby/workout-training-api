@@ -1,9 +1,14 @@
 package ping
 
-import "fmt"
+import (
+	"context"
+	"fmt"
+	pingSrvc "workout-training-api/internal/grpc/generated/workout-training-api/ping/v1"
+)
 
-func (s *Sanitary) Ping(_ context.Context, req *sanitaryv1.PingRequest) (*sanitaryv1.PingResponse, error) {
-	return &sanitaryv1.PingResponse{
+func (s *Ping) Ping(_ context.Context, req *pingSrvc.PingRequest) (*pingSrvc.PingResponse, error) {
+	return &pingSrvc.PingResponse{
 		Message: fmt.Sprint("pong: ", req.GetMessage()),
 	}, nil
+
 }

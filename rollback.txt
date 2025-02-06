@@ -1,0 +1,85 @@
+-- migrations/000001_create_initial_schema.up.sql
+
+-- Create enum types
+CREATE TYPE workout_status AS ENUM ('pending', 'in_progress', 'completed', 'cancelled');
+CREATE TYPE muscle_group AS ENUM (
+    'chest', 'back', 'shoulders', 'biceps', 'triceps', 'legs', 'calves',
+    'abs', 'forearms', 'traps', 'glutes', 'hamstrings', 'quadriceps',
+    'full_body', 'cardio'
+);
+CREATE TYPE exercise_category AS ENUM ('strength', 'cardio', 'flexibility', 'balance');
+
+-- Users table
+CREATE TABLE users (
+    user_id serial PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    hashed_password VARCHAR(255) NOT NULL,
+    full_name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Workouts table
+CREATE TABLE workouts (
+    workout_id serial PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    status workout_status NOT NULL DEFAULT 'pending',
+    scheduled_date TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Exercises table
+CREATE TABLE exercises (
+    exercise_id serial PRIMARY KEY,
+    workout_id INTEGER NOT NULL REFERENCES workouts(workout_id) ON DELETE CASCADE,
+    muscle_group muscle_group NOT NULL,
+    category exercise_category NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    sets INTEGER NOT NULL,
+    reps_per_set INTEGER NOT NULL,
+    weight_kg DECIMAL(5,2),
+    notes TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Comments table
+CREATE TABLE comments (
+    comment_id serial PRIMARY KEY,
+    workout_id INTEGER NOT NULL REFERENCES workouts(workout_id) ON DELETE CASCADE,
+    comment TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Trigger function to update updated_at column
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- Create triggers for updating updated_at
+CREATE TRIGGER update_users_updated_at
+    BEFORE UPDATE ON users
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_workouts_updated_at
+    BEFORE UPDATE ON workouts
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_exercises_updated_at
+    BEFORE UPDATE ON exercises
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- Create indexes
+CREATE INDEX idx_workouts_user_id ON workouts(user_id);
+CREATE INDEX idx_exercises_workout_id ON exercises(workout_id);
+CREATE INDEX idx_comments_workout_id ON comments(workout_id);

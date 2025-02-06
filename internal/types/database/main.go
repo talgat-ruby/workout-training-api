@@ -4,7 +4,7 @@ import "context"
 
 type User interface {
 	CreateUser(context.Context, CreateUserReq) (CreateUserResp, error)
-	FindUser(context.Context, FindUserReq) (FindUserResp, error)
+	FindUserByEmail(context.Context, FindUserReq) (FindUserResp, error)
 }
 
 type Exercise interface {
@@ -20,4 +20,10 @@ type Workout interface {
 	DeleteWorkout(context.Context, DeleteWorkoutReq) (DeleteWorkoutResp, error)
 	ListWorkout(context.Context, ListWorkoutReq) (ListWorkoutResp, error)
 	GenerateWorkoutReports(context.Context, GenerateWorkoutReportsReq) (GenerateWorkoutReportsRes, error)
+}
+
+type Database interface {
+	User
+	Exercise
+	Workout
 }

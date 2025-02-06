@@ -9,15 +9,7 @@ import (
 
 package postgres
 
-import (
-"database/sql"
-"fmt"
-"log/slog"
 
-_ "github.com/lib/pq"
-"github.com/talgat-ruby/lessons-go/projects/expense-tracker/internal/config"
-"github.com/talgat-ruby/lessons-go/projects/expense-tracker/internal/postgres/model"
-)
 
 type Postgres struct {
 	*model.Model

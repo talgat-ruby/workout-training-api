@@ -8,7 +8,9 @@ import (
 	"log/slog"
 	"net"
 	"workout-training-api/internal/config"
+	pingSrvc "workout-training-api/internal/grpc/generated/workout-training-api/ping/v1"
 	"workout-training-api/internal/grpc/interceptor"
+	"workout-training-api/internal/grpc/ping"
 	"workout-training-api/internal/types/controller"
 )
 
@@ -39,19 +41,19 @@ func (g *Grpc) Start(ctx context.Context) error {
 		grpc.StreamInterceptor(inter.Stream),
 	)
 
-	sanitaryv1.RegisterSanitaryServiceServer(
+	pingSrvc.RegisterPingServiceServer(
 		srv,
-		sanitary.New(
+		ping.New(
 			g.logger.With(slog.String("component", "sanitary")),
 		),
 	)
-	expensev1.RegisterExpenseServiceServer(
-		srv,
-		expense.New(
-			g.logger.With(slog.String("component", "expense")),
-			g.ctrl,
-		),
-	)
+	//expensev1.RegisterExpenseServiceServer(
+	//	srv,
+	//	expense.New(
+	//		g.logger.With(slog.String("component", "expense")),
+	//		g.ctrl,
+	//	),
+	//)
 
 	// Register reflection service on gRPC server.
 	reflection.Register(srv)
