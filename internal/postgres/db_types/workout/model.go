@@ -1,7 +1,6 @@
 package workout
 
 import (
-	"database/sql"
 	"time"
 	"workout-training-api/internal/constant"
 )
@@ -19,7 +18,7 @@ type Workout struct {
 	WorkoutID     string                 `db:"workout_id" json:"workout_id"`
 	UserID        string                 `db:"user_id" json:"user_id"`
 	Name          string                 `db:"name" json:"name"`
-	Description   sql.NullString         `db:"description" json:"description,omitempty"`
+	Description   string                 `db:"description" json:"description,omitempty"`
 	Exercises     []Exercise             `json:"exercises,omitempty"` // Loaded separately
 	Status        constant.WorkoutStatus `db:"status" json:"status"`
 	Comments      []Comment              `json:"comments,omitempty"` // Loaded separately
