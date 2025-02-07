@@ -8,12 +8,6 @@ import (
 	"workout-training-api/internal/types/database"
 )
 
-type Workout struct {
-	UserID         string
-	ExerciseIDs    []string    
-	ScheduledTimes []time.Time 
-}
-
 type WorkoutController struct {
 	db database.Workout
 }
@@ -36,7 +30,7 @@ func (w *WorkoutController) CreateWorkout(ctx context.Context, req controller.Cr
 
 	workout := &Workout{
 		UserID:         userID,
-		ExerciseIDs:    exerciseIDs,
+		Exercises:      exerciseIDs,
 		ScheduledTimes: times,
 	}
 
@@ -45,15 +39,18 @@ func (w *WorkoutController) CreateWorkout(ctx context.Context, req controller.Cr
 		return nil, fmt.Errorf("failed to save workout: %w", err)
 	}
 
-	return &createWorkoutResponse{good: true}, nil
+	return &createWorkoutResponse{}, nil
 }
 
 type createWorkoutResponse struct {
-	good bool
 }
 
-func (r *createWorkoutResponse) GetBool() bool {
-	return r.good
+type Workout struct {
+	ID             string
+	UserID         string
+	Exercises      []string
+	Comments       []string
+	ScheduledTimes []time.Time
 }
 
 func (w *Workout) GetUserID() string {
@@ -61,7 +58,7 @@ func (w *Workout) GetUserID() string {
 }
 
 func (w *Workout) GetExerciseIDs() []string {
-	return w.ExerciseIDs
+	return w.Exercises
 }
 
 func (w *Workout) GetScheduledTimes() []time.Time {
