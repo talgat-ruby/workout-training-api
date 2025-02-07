@@ -10,6 +10,7 @@ message User {
   string user_id = 1;
   string email = 2;
   string hashed_password = 3;
+  string salt = 4;
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
 }

@@ -2,10 +2,13 @@ package auth
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"fmt"
 	"log/slog"
 	"time"
+	"workout-training-api/internal/postgres/db_types/workout"
+	"workout-training-api/internal/types/database"
 )
 
 func (m *Auth) CreateUser(ctx context.Context, req database.CreateUserReq) (database.CreateUserResp, error) {
@@ -16,40 +19,67 @@ func (m *Auth) CreateUser(ctx context.Context, req database.CreateUserReq) (data
 		return nil, fmt.Errorf("req is nil")
 	}
 
-	mdl := model.User{
-		Email:        req.GetEmail(),
-		PasswordHash: req.GetPasswordHash(),
-		Salt:         req.GetSalt(),
+	newUser := workout.User{
+		Email:          req.GetEmail(),
+		HashedPassword: req.GetPasswordHash(),
+		Salt:           req.GetSalt(),
 	}
-	stmt := table.User.
-		INSERT(table.User.Email, table.User.PasswordHash, table.User.Salt).
-		MODEL(mdl).
-		RETURNING(table.User.AllColumns)
-	if err := stmt.QueryContext(ctx, m.db, &mdl); err != nil {
-		switch {
-		case errors.Is(err, qrm.ErrNoRows):
+	query := `
+        INSERT INTO users (
+            email,
+            hashed_password,
+            salt,
+            created_at,
+            updated_at
+        ) VALUES (
+            $1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+        )
+        RETURNING 
+            user_id,
+            email,
+            hashed_password,
+            salt,
+            created_at,
+            updated_at`
+
+	err := m.db.QueryRowContext(
+		ctx,
+		query,
+		newUser.Email,
+		newUser.HashedPassword,
+		newUser.Salt,
+	).Scan(
+		&newUser.UserID,
+		&newUser.Email,
+		&newUser.HashedPassword,
+		&newUser.Salt,
+		&newUser.CreatedAt,
+		&newUser.UpdatedAt,
+	)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
 			log.WarnContext(ctx, "no rows found")
 			return nil, nil
-		default:
-			log.ErrorContext(ctx, "failed to insert user", slog.Any("error", err))
-			return nil, fmt.Errorf("failed to insert user: %w", err)
 		}
+		log.ErrorContext(ctx, "failed to insert user", slog.Any("error", err))
+		return nil, fmt.Errorf("failed to insert user: %w", err)
 	}
 
 	log.InfoContext(
 		ctx,
 		"success",
-		slog.String("email", mdl.Email),
+		slog.String("email", newUser.Email),
 	)
-	return &createUserResp{mdl}, nil
+	return &createUserResp{newUser}, nil
 }
 
 type createUserResp struct {
-	model.User
+	workout.User
 }
 
 func (resp *createUserResp) GetID() string {
-	return fmt.Sprint(resp.ID)
+	return fmt.Sprint(resp.UserID)
 }
 
 func (resp *createUserResp) GetEmail() string {

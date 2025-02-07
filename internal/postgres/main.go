@@ -5,11 +5,8 @@ import (
 	"fmt"
 	"log/slog"
 	"workout-training-api/internal/config"
+	"workout-training-api/internal/postgres/model"
 )
-
-package postgres
-
-
 
 type Postgres struct {
 	*model.Model

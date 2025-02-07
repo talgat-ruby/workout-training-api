@@ -2,69 +2,82 @@ package auth
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"fmt"
 	"log/slog"
 	"time"
+
+	"workout-training-api/internal/postgres/db_types/workout"
+	"workout-training-api/internal/types/database"
 )
 
-func (m *Auth) FindUserByEmail(ctx context.Context, req database.FindUserByEmailReq) (database.FindUserByEmailResp, error) {
+// FindUserByEmail finds a user by email using a raw SQL query.
+func (m *Auth) FindUserByEmail(ctx context.Context, req database.FindUserReq) (database.FindUserResp, error) {
 	log := m.logger.With(slog.String("handler", "FindUserByEmail"))
 
 	if req == nil {
-		log.ErrorContext(ctx, "req is nil")
-		return nil, fmt.Errorf("req is nil")
+		log.ErrorContext(ctx, "request is nil")
+		return nil, fmt.Errorf("request is nil")
 	}
 
-	mdl := model.User{
-		Email: req.GetEmail(),
-	}
-	stmt := table.User.
-		SELECT(table.User.AllColumns).
-		WHERE(table.User.Email.EQ(postgres.String(req.GetEmail())))
-	if err := stmt.QueryContext(ctx, m.db, &mdl); err != nil {
-		switch {
-		case errors.Is(err, qrm.ErrNoRows):
+	// Define the SQL query.
+	query := `
+		SELECT user_id, email, hashed_password, salt, created_at, updated_at
+		FROM users
+		WHERE email = $1
+	`
+
+	// Prepare a variable to hold the user.
+	var user workout.User
+
+	// Execute the query.
+	err := m.db.QueryRowContext(ctx, query, req.GetEmail()).Scan(
+		&user.UserID,
+		&user.Email,
+		&user.HashedPassword,
+		&user.Salt,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
 			log.WarnContext(ctx, "no rows found")
 			return nil, nil
-		default:
-			log.ErrorContext(ctx, "failed to find user by email", slog.Any("error", err))
-			return nil, fmt.Errorf("failed to find user by email: %w", err)
 		}
+		log.ErrorContext(ctx, "failed to find user by email", slog.Any("error", err))
+		return nil, fmt.Errorf("failed to find user by email: %w", err)
 	}
 
-	log.InfoContext(
-		ctx,
-		"success",
-		slog.String("email", mdl.Email),
-	)
-	return &findUserByEmailResp{mdl}, nil
+	log.InfoContext(ctx, "success", slog.String("email", user.Email))
+	return &findUserByEmailResp{user: user}, nil
 }
 
+// findUserByEmailResp wraps the workout.User and implements the database.FindUserResp interface.
 type findUserByEmailResp struct {
-	model.User
+	user workout.User
 }
 
-func (resp *findUserByEmailResp) GetID() string {
-	return fmt.Sprint(resp.ID)
+func (r *findUserByEmailResp) GetID() string {
+	return r.user.UserID
 }
 
-func (resp *findUserByEmailResp) GetEmail() string {
-	return resp.Email
+func (r *findUserByEmailResp) GetEmail() string {
+	return r.user.Email
 }
 
-func (resp *findUserByEmailResp) GetPasswordHash() string {
-	return resp.PasswordHash
+func (r *findUserByEmailResp) GetPasswordHash() string {
+	return r.user.HashedPassword
 }
 
-func (resp *findUserByEmailResp) GetSalt() string {
-	return resp.Salt
+func (r *findUserByEmailResp) GetSalt() string {
+	return r.user.Salt
 }
 
-func (resp *findUserByEmailResp) GetCreatedAt() time.Time {
-	return resp.CreatedAt
+func (r *findUserByEmailResp) GetCreatedAt() time.Time {
+	return r.user.CreatedAt
 }
 
-func (resp *findUserByEmailResp) GetUpdatedAt() time.Time {
-	return resp.UpdatedAt
+func (r *findUserByEmailResp) GetUpdatedAt() time.Time {
+	return r.user.UpdatedAt
 }

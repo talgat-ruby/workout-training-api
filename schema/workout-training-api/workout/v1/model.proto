@@ -21,15 +21,16 @@ message Workout {
 
 message Exercise {
   string exercise_id = 1;
-  MuscleGroup muscle_group = 2;
-  Category category = 3;
-  string name = 4;
-  uint32 sets = 5;
-  uint32 reps_per_set = 6;
-  float weight_kg = 7;
-  string notes = 8;
-  google.protobuf.Timestamp created_at = 9;
-  google.protobuf.Timestamp updated_at = 10;
+  string workoit_id = 2;
+  MuscleGroup muscle_group = 3;
+  Category category = 4;
+  string name = 5;
+  uint32 sets = 6;
+  uint32 reps_per_set = 7;
+  float weight_kg = 8;
+  string notes = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
 }
 
 

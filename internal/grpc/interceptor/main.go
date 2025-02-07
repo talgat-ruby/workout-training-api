@@ -6,6 +6,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"log/slog"
+	"workout-training-api/internal/governor/workout"
+	"workout-training-api/internal/grpc/ping"
 	"workout-training-api/internal/types/controller"
 )
 
@@ -71,9 +73,9 @@ func (inter *Interceptor) Stream(
 
 func (inter *Interceptor) both(ctx context.Context, srv any) (context.Context, error) {
 	switch t := srv.(type) {
-	case *sanitary.Sanitary:
+	case *ping.Ping:
 		return ctx, nil
-	case *expense.Expense:
+	case *workout.Workout:
 		return inter.authenticate(ctx)
 	default:
 		return nil, status.Errorf(codes.Internal, "unsuported server type: %T", t)

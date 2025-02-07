@@ -47,13 +47,6 @@ func (g *Grpc) Start(ctx context.Context) error {
 			g.logger.With(slog.String("component", "sanitary")),
 		),
 	)
-	//expensev1.RegisterExpenseServiceServer(
-	//	srv,
-	//	expense.New(
-	//		g.logger.With(slog.String("component", "expense")),
-	//		g.ctrl,
-	//	),
-	//)
 
 	// Register reflection service on gRPC server.
 	reflection.Register(srv)
