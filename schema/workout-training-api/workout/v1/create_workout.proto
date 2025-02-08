@@ -13,8 +13,9 @@ message CreateWorkoutRequest {
   string user_id = 1;
   string name = 2;
   string description = 3;
-  repeated Exercise exercises = 4;
-  repeated google.protobuf.Timestamp scheduled_date = 5;
+  Status status = 4;
+  repeated Exercise exercises = 5;
+  repeated google.protobuf.Timestamp scheduled_date = 6;
 }
 
 message CreateWorkoutResponse {
