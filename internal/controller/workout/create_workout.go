@@ -64,3 +64,11 @@ func (w *Workout) GetExerciseIDs() []string {
 func (w *Workout) GetScheduledTimes() []time.Time {
 	return w.ScheduledTimes
 }
+
+func (w *Workout) GetID() string {
+	return w.ID
+}
+
+func (w *Workout) GetComments() []string {
+	return w.Comments
+}

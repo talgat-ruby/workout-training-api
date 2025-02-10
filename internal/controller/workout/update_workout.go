@@ -39,6 +39,3 @@ func (w *WorkoutUpdateController) UpdateWorkout(ctx context.Context, req control
 
 type updateWorkoutResponse struct{}
 
-func (w *Workout) GetComments() []string {
-	return w.Comments
-}

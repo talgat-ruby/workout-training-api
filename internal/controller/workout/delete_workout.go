@@ -32,6 +32,4 @@ func (w *WorkoutDeleteController) DeleteWorkout(ctx context.Context, req control
 
 type deleteWorkoutResponse struct{}
 
-func (w *Workout) GetID() string {
-	return w.ID
-}
+
