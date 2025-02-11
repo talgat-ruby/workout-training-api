@@ -1,4 +1,4 @@
-package workout_training_api
+package main
 
 func main() {
 

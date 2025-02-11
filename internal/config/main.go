@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/talgat-ruby/lessons-go/projects/expense-tracker/internal/constant"
+	"workout-training-api/internal/constant"
 )
 
 type Config struct {
