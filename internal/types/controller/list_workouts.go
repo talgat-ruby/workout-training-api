@@ -6,7 +6,6 @@ import (
 
 type ListWorkoutsReq interface {
 	GetUserID() string
-	GetStatus() string
 }
 
 type ListWorkoutsResp interface {

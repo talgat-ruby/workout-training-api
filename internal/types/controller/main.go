@@ -15,7 +15,7 @@ type WorkoutCrud interface {
 	CreateWorkout(context.Context, CreateWorkoutReq) (CreateWorkoutResp, error)
 	//UpdateWorkout(context.Context, UpdateWorkoutReq) (UpdateWorkoutResp, error)
 	//DeleteWorkout(context.Context, DeleteWorkoutReq) (DeleteWorkoutResp, error)
-	//ListWorkouts(context.Context, ListWorkoutsReq) (ListWorkoutsResp, error)
+	ListWorkouts(context.Context, ListWorkoutsReq) (ListWorkoutsResp, error)
 	//ScheduleWorkout(context.Context, ScheduleWorkoutReq) (ScheduleWorkoutResp, error)
 	//GenerateReport(context.Context, GenerateReportReq) (GenerateReportResp, error)
 }

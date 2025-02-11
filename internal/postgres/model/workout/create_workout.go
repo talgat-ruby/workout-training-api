@@ -38,22 +38,21 @@ func (m *Workout) CreateWorkout(ctx context.Context, req database.CreateWorkoutR
 	userID := req.GetUserID()
 	var exerciseToSave workout.Exercise
 
-	/*
-			err := m.db.QueryRowContext(
-			ctx,
-			query,
-			newUser.Email,
-			newUser.HashedPassword,
-			newUser.Salt,
-		).Scan(
-			&newUser.UserID,
-			&newUser.Email,
-			&newUser.HashedPassword,
-			&newUser.Salt,
-			&newUser.CreatedAt,
-			&newUser.UpdatedAt,
-		)
-	*/
+	err := m.db.QueryRowContext(
+		ctx,
+		query,
+		newUser.Email,
+		newUser.HashedPassword,
+		newUser.Salt,
+	).Scan(
+		&newUser.UserID,
+		&newUser.Email,
+		&newUser.HashedPassword,
+		&newUser.Salt,
+		&newUser.CreatedAt,
+		&newUser.UpdatedAt,
+	)
+	// Need to create workout with slice of exercises inside how to do it in sql:
 
 	queryForExercise := `
 	INSERT INTO exercise (workout_id, name, category, muscle_group,sets, reps_per_set, weight, notes) 

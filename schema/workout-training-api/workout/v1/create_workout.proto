@@ -10,7 +10,6 @@ option go_package="workout-training-api/internal/grpc/generated/workout-training
 
 
 message CreateWorkoutRequest {
-  string user_id = 1;
   string name = 2;
   string description = 3;
   Status status = 4;

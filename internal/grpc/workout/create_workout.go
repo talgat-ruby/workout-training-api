@@ -34,7 +34,6 @@ func (w *Workout) CreateWorkout(ctx context.Context, req *workoutv1.CreateWorkou
 	return &workoutv1.CreateWorkoutResponse{
 		Workout: &workoutv1.Workout{
 			WorkoutId:     workout.GetWorkout().WorkoutID,
-			UserId:        req.GetUserId(),
 			Name:          req.GetName(),
 			Description:   req.GetDescription(),
 			Status:        req.GetStatus(),
@@ -86,9 +85,6 @@ func (w *ctrlReqCreateWorkout) GetDescription() string {
 }
 
 func validateCreateWorkoutRequest(req *workoutv1.CreateWorkoutRequest) error {
-	if req.GetUserId() == "" {
-		return status.Error(codes.InvalidArgument, "user_id is required")
-	}
 	if req.GetName() == "" {
 		return status.Error(codes.InvalidArgument, "name is required")
 	}
