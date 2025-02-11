@@ -3,7 +3,7 @@ package directives
 import (
 	"log/slog"
 
-	"github.com/talgat-ruby/lessons-go/projects/expense-tracker/internal/types/controller"
+	"workout-training-api/internal/types/controller"
 )
 
 type Directives struct {

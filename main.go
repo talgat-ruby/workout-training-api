@@ -10,28 +10,11 @@ import (
 	"workout-training-api/internal/config"
 	"workout-training-api/internal/constant"
 	"workout-training-api/internal/controller"
-	"workout-training-api/internal/governor"
+	"workout-training-api/internal/graphql"
 	"workout-training-api/internal/grpc"
 	"workout-training-api/internal/postgres"
 	"workout-training-api/pkg/logger"
 )
-
-<<<<<<< Updated upstream
-
-import (
-	"context"
-	"fmt"
-	"log/slog"
-	"os"
-	"os/signal"
-	"workout-training-api/internal/config"
-	"workout-training-api/internal/constant"
-	"workout-training-api/internal/governor"
-	"workout-training-api/internal/grpc"
-	"workout-training-api/internal/postgres"
-	"workout-training-api/pkg/logger"
-)
-
 
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
@@ -54,6 +37,15 @@ func main() {
 	go func(ctx context.Context, cancelFunc context.CancelFunc) {
 		if err := gr.Start(ctx); err != nil {
 			log.ErrorContext(ctx, "failed to start grpc", slog.Any("error", err))
+		}
+
+		cancelFunc()
+	}(ctx, cancel)
+
+	gql := graphql.New(conf.API.GraphQL, log.With(slog.String("service", "graphql")), ctrl)
+	go func(ctx context.Context, cancelFunc context.CancelFunc) {
+		if err := gql.Start(ctx); err != nil {
+			log.ErrorContext(ctx, "failed to start graphql", slog.Any("error", err))
 		}
 
 		cancelFunc()
