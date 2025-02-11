@@ -15,6 +15,10 @@ type CtrlCreateWorkoutRequest struct {
 	scheduledDate []time.Time
 }
 
+func (c CtrlCreateWorkoutRequest) ScheduledDate() time.Time {
+	return c.scheduledDate[0]
+}
+
 func (c CtrlCreateWorkoutRequest) GetName() string {
 	return c.name
 }
@@ -69,10 +73,6 @@ func (e ExerciseImpl) GetWeight() float64     { return e.Weight }
 
 func (c CtrlCreateWorkoutRequest) GetStatus() constant.WorkoutStatus {
 	return constant.WorkoutStatus(c.status)
-}
-
-func (c CtrlCreateWorkoutRequest) GetScheduledDate() []time.Time {
-	return c.scheduledDate
 }
 
 type CtrlUpdateWorkoutRequest struct {

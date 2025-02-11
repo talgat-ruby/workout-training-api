@@ -67,29 +67,29 @@ func (r *mutationResolver) UpdateWorkout(ctx context.Context, workout *model.Wor
 }
 
 // ListWorkouts is the resolver for the listWorkouts field.
-func (r *queryResolver) ListWorkouts(ctx context.Context, userID string) ([]*model.Workout, error) {
-	log := r.logger.With("method", "ListWorkouts")
-
-	reqBody := request.NewCtrlListWorkoutsRequest(userID)
-	listResp, err := r.ctrl.ListWorkouts(ctx, reqBody)
-
-	if err != nil {
-		log.ErrorContext(ctx, "fail", slog.Any("error", err))
-		return nil, err
-	}
-
-	workouts := make([]*model.Workout, len(listResp.GetWorkouts()))
-	for i, w := range listResp.GetWorkouts() {
-		workouts[i] = &model.Workout{
-			ID:            w.GetID(),
-			Name:          w.GetName(),
-			Description:   w.GetDescription(),
-			Exercises:     convertExercises(w.GetExercises()),
-			ScheduledTime: w.GetScheduledTime(),
-		}
-	}
-
-	log.InfoContext(ctx, "success", slog.Int("workout_count", len(workouts)))
-
-	return workouts, nil
-}
+//func (r *queryResolver) ListWorkouts(ctx context.Context, userID string) ([]*model.Workout, error) {
+//	log := r.logger.With("method", "ListWorkouts")
+//
+//	reqBody := request.NewCtrlListWorkoutsRequest(userID)
+//	listResp, err := r.ctrl.ListWorkouts(ctx, reqBody)
+//
+//	if err != nil {
+//		log.ErrorContext(ctx, "fail", slog.Any("error", err))
+//		return nil, err
+//	}
+//
+//	workouts := make([]*model.Workout, len(listResp.GetWorkouts()))
+//	for i, w := range listResp.GetWorkouts() {
+//		workouts[i] = &model.Workout{
+//			ID:            w.GetID(),
+//			Name:          w.GetName(),
+//			Description:   w.GetDescription(),
+//			Exercises:     convertExercises(w.GetExercises()),
+//			ScheduledTime: w.GetScheduledTime(),
+//		}
+//	}
+//
+//	log.InfoContext(ctx, "success", slog.Int("workout_count", len(workouts)))
+//
+//	return workouts, nil
+//}
