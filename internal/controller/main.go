@@ -5,5 +5,5 @@ import (
 )
 
 type Controller struct {
-	*workout.Workout
+	*workout.WorkoutController
 }
