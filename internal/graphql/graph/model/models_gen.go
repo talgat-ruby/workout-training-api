@@ -3,21 +3,25 @@
 package model
 
 type Exercise struct {
-	ID          string  `json:"id"`
-	Name        string  `json:"name"`
-	Category    string  `json:"category"`
-	Repetitions int32   `json:"repetitions"`
-	Sets        int32   `json:"sets"`
-	Weight      float64 `json:"weight"`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	MuscleGroup string `json:"muscleGroup"`
+	Category    string `json:"category"`
+	Repetitions int32  `json:"repetitions"`
+	Sets        int32  `json:"sets"`
+	Weight      int32  `json:"weight"`
 }
 
 type ExerciseInput struct {
-	ID          string  `json:"id"`
-	Name        string  `json:"name"`
-	Category    string  `json:"category"`
-	Repetitions int32   `json:"repetitions"`
-	Sets        int32   `json:"sets"`
-	Weight      float64 `json:"weight"`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	MuscleGroup string `json:"muscleGroup"`
+	Category    string `json:"category"`
+	Repetitions int32  `json:"repetitions"`
+	Sets        int32  `json:"sets"`
+	Weight      int32  `json:"weight"`
 }
 
 type Mutation struct {
@@ -39,17 +43,19 @@ type SignUpResp struct {
 }
 
 type Workout struct {
-	ID             string      `json:"id"`
-	Name           string      `json:"name"`
-	Exercises      []*Exercise `json:"exercises"`
-	Description    string      `json:"description"`
-	ScheduledTimes int32       `json:"scheduledTimes"`
+	ID            string      `json:"id"`
+	Name          string      `json:"name"`
+	Exercises     []*Exercise `json:"exercises"`
+	Description   string      `json:"description"`
+	ScheduledDate []string    `json:"scheduledDate,omitempty"`
+	Status        string      `json:"status"`
 }
 
 type WorkoutInput struct {
-	ID             string           `json:"id"`
-	Name           string           `json:"name"`
-	Exercises      []*ExerciseInput `json:"exercises"`
-	Description    string           `json:"description"`
-	ScheduledTimes int32            `json:"scheduledTimes"`
+	ID            string           `json:"id"`
+	Name          string           `json:"name"`
+	Exercises     []*ExerciseInput `json:"exercises"`
+	Description   string           `json:"description"`
+	ScheduledDate []string         `json:"scheduledDate,omitempty"`
+	Status        string           `json:"status"`
 }

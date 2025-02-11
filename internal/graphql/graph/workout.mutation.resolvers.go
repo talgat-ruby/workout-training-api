@@ -13,10 +13,10 @@ import (
 )
 
 // CreateWorkout is the resolver for the createWorkout field.
-func (r *mutationResolver) CreateWorkout(ctx context.Context, name string, description string, exercises []*model.ExerciseInput, scheduledTime time.Time) (bool, error) {
+func (r *mutationResolver) CreateWorkout(ctx context.Context, name string, description string, exercises []*model.ExerciseInput, status string, scheduledDate []time.Time) (bool, error) {
 	log := r.logger.With("method", "CreateWorkout")
 
-	reqBody := request.NewCtrlCreateWorkoutRequest(name, description, exercises, scheduledTime)
+	reqBody := request.NewCtrlCreateWorkoutRequest(name, description, exercises, status, scheduledDate)
 	_, err := r.ctrl.CreateWorkout(ctx, reqBody)
 	if err != nil {
 		log.ErrorContext(ctx, "fail", slog.Any("error", err))
@@ -49,62 +49,47 @@ func (r *mutationResolver) DeleteWorkout(ctx context.Context, workoutID string) 
 }
 
 // UpdateWorkout is the resolver for the updateWorkout field.
-func (r *mutationResolver) UpdateWorkout(ctx context.Context, workout *model.WorkoutInput) (model.WorkoutInput, error) {
+func (r *mutationResolver) UpdateWorkout(ctx context.Context, workout *model.WorkoutInput) (bool, error) {
 	log := r.logger.With("method", "UpdateWorkout")
 
 	reqBody := request.NewCtrlUpdateWorkoutRequest(workout)
 	_, err := r.ctrl.UpdateWorkout(ctx, reqBody)
 	if err != nil {
 		log.ErrorContext(ctx, "fail", slog.Any("error", err))
-		return *workout, err
+		return false, err
 	}
 
 	log.InfoContext(
 		ctx,
 		"success",
 	)
-	return *workout, nil
+	return true, nil
 }
 
 // ListWorkouts is the resolver for the listWorkouts field.
-func (r *queryResolver) ListWorkouts(ctx context.Context) ([]*model.Workout, error) {
+func (r *queryResolver) ListWorkouts(ctx context.Context, userID string) ([]*model.Workout, error) {
 	log := r.logger.With("method", "ListWorkouts")
 
-	list, err := r.ctrl.ListWorkouts(ctx)
+	reqBody := request.NewCtrlListWorkoutsRequest(userID)
+	listResp, err := r.ctrl.ListWorkouts(ctx, reqBody)
 
 	if err != nil {
 		log.ErrorContext(ctx, "fail", slog.Any("error", err))
 		return nil, err
 	}
 
-	log.InfoContext(
-		ctx,
-		"success",
-	)
-	return list, nil
-}
+	workouts := make([]*model.Workout, len(listResp.GetWorkouts()))
+	for i, w := range listResp.GetWorkouts() {
+		workouts[i] = &model.Workout{
+			ID:            w.GetID(),
+			Name:          w.GetName(),
+			Description:   w.GetDescription(),
+			Exercises:     convertExercises(w.GetExercises()),
+			ScheduledTime: w.GetScheduledTime(),
+		}
+	}
 
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//    it when you're done.
-//  - You have helper methods in this file. Move them out to keep these resolver files clean.
-/*
-	func (r *exerciseResolver) Repetitions(ctx context.Context, obj *model.Exercise) (int32, error) {
-	panic(fmt.Errorf("not implemented: Repetitions - repetitions"))
+	log.InfoContext(ctx, "success", slog.Int("workout_count", len(workouts)))
+
+	return workouts, nil
 }
-func (r *exerciseResolver) Sets(ctx context.Context, obj *model.Exercise) (int32, error) {
-	panic(fmt.Errorf("not implemented: Sets - sets"))
-}
-func (r *exerciseResolver) Weight(ctx context.Context, obj *model.Exercise) (float64, error) {
-	panic(fmt.Errorf("not implemented: Weight - weight"))
-}
-func (r *workoutResolver) ScheduledTimes(ctx context.Context, obj *model.Workout) (int32, error) {
-	panic(fmt.Errorf("not implemented: ScheduledTimes - scheduledTimes"))
-}
-func (r *Resolver) Exercise() ExerciseResolver { return &exerciseResolver{r} }
-func (r *Resolver) Workout() WorkoutResolver { return &workoutResolver{r} }
-type exerciseResolver struct{ *Resolver }
-type workoutResolver struct{ *Resolver }
-*/
