@@ -9,5 +9,12 @@ type ListWorkoutsReq interface {
 }
 
 type ListWorkoutsResp interface {
-	GetWorkouts() []workout.Workout
+	GetWorkouts() []Workout
+}
+
+type Workouts interface {
+	GetID() string
+	GetExercises() []Exercise
+	GetDate() time.Time
+	GetComments() string
 }

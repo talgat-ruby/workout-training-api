@@ -7,10 +7,10 @@ import (
 	"errors"
 	"strconv"
 	"sync/atomic"
-	"workout-training-api/internal/graphql"
 	"workout-training-api/internal/graphql/graph/model"
 
-
+	"github.com/99designs/gqlgen/graphql"
+	"github.com/vektah/gqlparser/v2/ast"
 )
 
 // region    ************************** generated!.gotpl **************************

@@ -1,5 +1,6 @@
 package main
 
+
 import (
 	"context"
 	"fmt"
@@ -13,6 +14,7 @@ import (
 	"workout-training-api/internal/postgres"
 	"workout-training-api/pkg/logger"
 )
+
 
 func main() {
 

@@ -7,11 +7,13 @@ import (
 )
 
 type CreateWorkoutReq interface {
+
 	GetName() string
 	GetDescription() string
 	GetExercises() []workout.Exercise
 	GetStatus() constant.WorkoutStatus
 	GetScheduledDate() []time.Time
+
 }
 
 type CreateWorkoutResp interface {
@@ -19,6 +21,7 @@ type CreateWorkoutResp interface {
 }
 
 type Exercise interface {
+	GetID() string
 	GetName() string
 	GetDescription() string
 	GetMuscleGroup() string

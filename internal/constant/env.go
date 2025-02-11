@@ -1,6 +1,6 @@
 package constant
 
-// Environment is the enumeration for the various runtime environments
+
 type Environment string
 
 const (

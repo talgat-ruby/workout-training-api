@@ -3,8 +3,9 @@ package config
 import (
 	"context"
 	"flag"
-	"github.com/joho/godotenv"
 	"os"
+
+	"github.com/joho/godotenv"
 	"workout-training-api/internal/constant"
 )
 
