@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	"workout-training-api/internal/grpc/workout"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -123,7 +124,7 @@ type UnsafeWorkoutServiceServer interface {
 	mustEmbedUnimplementedWorkoutServiceServer()
 }
 
-func RegisterWorkoutServiceServer(s grpc.ServiceRegistrar, srv WorkoutServiceServer) {
+func RegisterWorkoutServiceServer(s grpc.ServiceRegistrar, srv *workout.Workout) {
 	// If the following call pancis, it indicates UnimplementedWorkoutServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization

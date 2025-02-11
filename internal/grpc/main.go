@@ -9,8 +9,10 @@ import (
 	"net"
 	"workout-training-api/internal/config"
 	pingSrvc "workout-training-api/internal/grpc/generated/workout-training-api/ping/v1"
+	workoutv1 "workout-training-api/internal/grpc/generated/workout-training-api/workout/v1"
 	"workout-training-api/internal/grpc/interceptor"
 	"workout-training-api/internal/grpc/ping"
+	"workout-training-api/internal/grpc/workout"
 	"workout-training-api/internal/types/controller"
 )
 
@@ -45,6 +47,14 @@ func (g *Grpc) Start(ctx context.Context) error {
 		srv,
 		ping.New(
 			g.logger.With(slog.String("component", "sanitary")),
+		),
+	)
+
+	workoutv1.RegisterWorkoutServiceServer(
+		srv,
+		workout.New(
+			g.logger.With(slog.String("component", "workout")),
+			g.ctrl,
 		),
 	)
 
