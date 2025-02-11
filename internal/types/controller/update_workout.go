@@ -3,7 +3,7 @@ package controller
 type UpdateWorkoutReq interface {
     GetID() string
     GetExercises() []Exercise
-    GetComments() string
+    GetComments() []string
 }
 
 type UpdateWorkoutResp interface{}

@@ -13,7 +13,7 @@ type ListWorkoutsResp interface {
 	GetWorkouts() []Workout
 }
 
-type Workout interface {
+type Workouts interface {
 	GetID() string
 	GetExercises() []Exercise
 	GetDate() time.Time
