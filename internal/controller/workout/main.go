@@ -5,9 +5,11 @@ import (
 )
 
 type WorkoutController struct {
-	db database.Workout
+	db database.Database
 }
 
-func New() *WorkoutController {
-	return &WorkoutController{}
+func New(db database.Database) *WorkoutController {
+	return &WorkoutController{
+		db: db,
+	}
 }
