@@ -4,14 +4,9 @@ import (
 	"context"
 	"fmt"
 	"workout-training-api/internal/types/controller"
-	"workout-training-api/internal/types/database"
 )
 
-type WorkoutUpdateController struct {
-	db database.Workout
-}
-
-func (w *WorkoutUpdateController) UpdateWorkout(ctx context.Context, req controller.UpdateWorkoutReq) (controller.UpdateWorkoutResp, error) {
+func (w *WorkoutController) UpdateWorkout(ctx context.Context, req controller.UpdateWorkoutReq) (controller.UpdateWorkoutResp, error) {
 	userID, ok := ctx.Value("user_id").(string)
 	if !ok {
 		return nil, fmt.Errorf("user not authenticated")
@@ -38,4 +33,3 @@ func (w *WorkoutUpdateController) UpdateWorkout(ctx context.Context, req control
 }
 
 type updateWorkoutResponse struct{}
-

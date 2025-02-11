@@ -2,18 +2,17 @@ package controller
 
 import (
 	"time"
+
 	"workout-training-api/internal/constant"
 	"workout-training-api/internal/postgres/db_types/workout"
 )
 
 type CreateWorkoutReq interface {
-
 	GetName() string
 	GetDescription() string
-	GetExercises() []workout.Exercise
+	GetExercises() []Exercise
 	GetStatus() constant.WorkoutStatus
 	GetScheduledDate() []time.Time
-
 }
 
 type CreateWorkoutResp interface {

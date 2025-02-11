@@ -3,15 +3,11 @@ package workout
 import (
 	"context"
 	"fmt"
+
 	"workout-training-api/internal/types/controller"
-	"workout-training-api/internal/types/database"
 )
 
-type WorkoutDeleteController struct {
-	db database.Workout
-}
-
-func (w *WorkoutDeleteController) DeleteWorkout(ctx context.Context, req controller.DeleteWorkoutReq) (controller.DeleteWorkoutResp, error) {
+func (w *WorkoutController) DeleteWorkout(ctx context.Context, req controller.DeleteWorkoutReq) (controller.DeleteWorkoutResp, error) {
 	userID, ok := ctx.Value("user_id").(string)
 	if !ok {
 		return nil, fmt.Errorf("user not authenticated")
@@ -31,5 +27,3 @@ func (w *WorkoutDeleteController) DeleteWorkout(ctx context.Context, req control
 }
 
 type deleteWorkoutResponse struct{}
-
-

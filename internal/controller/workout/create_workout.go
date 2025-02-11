@@ -5,12 +5,7 @@ import (
 	"fmt"
 	"time"
 	"workout-training-api/internal/types/controller"
-	"workout-training-api/internal/types/database"
 )
-
-type WorkoutController struct {
-	db database.Workout
-}
 
 func (w *WorkoutController) CreateWorkout(ctx context.Context, req controller.CreateWorkoutReq) (controller.CreateWorkoutResp, error) {
 	userID, ok := ctx.Value("user_id").(string)
@@ -23,8 +18,8 @@ func (w *WorkoutController) CreateWorkout(ctx context.Context, req controller.Cr
 		exerciseIDs = append(exerciseIDs, e.GetID())
 	}
 
-	times := make([]time.Time, 0, len(req.GetDate()))
-	for _, t := range req.GetDate() {
+	times := make([]time.Time, 0, len(req.GetScheduledDate()))
+	for _, t := range req.GetScheduledDate() {
 		times = append(times, t)
 	}
 
