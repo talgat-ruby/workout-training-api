@@ -45,3 +45,11 @@ type Workout struct {
 	Description    string      `json:"description"`
 	ScheduledTimes int32       `json:"scheduledTimes"`
 }
+
+type WorkoutInput struct {
+	ID             string           `json:"id"`
+	Name           string           `json:"name"`
+	Exercises      []*ExerciseInput `json:"exercises"`
+	Description    string           `json:"description"`
+	ScheduledTimes int32            `json:"scheduledTimes"`
+}

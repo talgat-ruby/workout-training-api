@@ -23,6 +23,7 @@ type MutationResolver interface {
 	SignUp(ctx context.Context, email string, password string) (*model.SignUpResp, error)
 	CreateWorkout(ctx context.Context, name string, description string, exercises []*model.ExerciseInput, scheduledTime string) (bool, error)
 	DeleteWorkout(ctx context.Context, workoutID string) (bool, error)
+	UpdateWorkout(ctx context.Context, workout model.WorkoutInput) (string, error)
 }
 type QueryResolver interface {
 	GetPing(ctx context.Context) (*model.Ping, error)
@@ -212,6 +213,29 @@ func (ec *executionContext) field_Mutation_signUp_argsPassword(
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateWorkout_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateWorkout_argsWorkout(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["workout"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateWorkout_argsWorkout(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.WorkoutInput, error) {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("workout"))
+	if tmp, ok := rawArgs["workout"]; ok {
+		return ec.unmarshalNWorkoutInput2workoutᚑtrainingᚑapiᚋinternalᚋgraphqlᚋgraphᚋmodelᚐWorkoutInput(ctx, tmp)
+	}
+
+	var zeroVal model.WorkoutInput
 	return zeroVal, nil
 }
 
@@ -519,6 +543,61 @@ func (ec *executionContext) fieldContext_Mutation_deleteWorkout(ctx context.Cont
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_updateWorkout(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateWorkout(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateWorkout(rctx, fc.Args["workout"].(model.WorkoutInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateWorkout(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateWorkout_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_getPing(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_getPing(ctx, field)
 	if err != nil {
@@ -810,6 +889,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "deleteWorkout":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteWorkout(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateWorkout":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateWorkout(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++

@@ -35,10 +35,8 @@ type Config struct {
 }
 
 type ResolverRoot interface {
-	Exercise() ExerciseResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
-	Workout() WorkoutResolver
 }
 
 type DirectiveRoot struct {
@@ -61,6 +59,7 @@ type ComplexityRoot struct {
 		GetPing       func(childComplexity int) int
 		SignIn        func(childComplexity int, email string, password string) int
 		SignUp        func(childComplexity int, email string, password string) int
+		UpdateWorkout func(childComplexity int, workout model.WorkoutInput) int
 	}
 
 	Ping struct {
@@ -205,6 +204,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.SignUp(childComplexity, args["email"].(string), args["password"].(string)), true
 
+	case "Mutation.updateWorkout":
+		if e.complexity.Mutation.UpdateWorkout == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateWorkout_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateWorkout(childComplexity, args["workout"].(model.WorkoutInput)), true
+
 	case "Ping.message":
 		if e.complexity.Ping.Message == nil {
 			break
@@ -284,6 +295,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	ec := executionContext{opCtx, e, 0, 0, make(chan graphql.DeferredResult)}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputExerciseInput,
+		ec.unmarshalInputWorkoutInput,
 	)
 	first := true
 
