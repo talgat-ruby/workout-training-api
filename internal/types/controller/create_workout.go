@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"workout-training-api/internal/constant"
-	"workout-training-api/internal/postgres/db_types/workout"
 )
 
 type CreateWorkoutReq interface {
@@ -12,11 +11,12 @@ type CreateWorkoutReq interface {
 	GetDescription() string
 	GetExercises() []Exercise
 	GetStatus() constant.WorkoutStatus
-	GetScheduledDate() []time.Time
+	ScheduledDate() time.Time
 }
 
 type CreateWorkoutResp interface {
-	GetWorkout() workout.Workout
+	GetID() string
+	GetStatus() constant.WorkoutStatus
 }
 
 type Exercise interface {

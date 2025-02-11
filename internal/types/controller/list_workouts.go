@@ -1,8 +1,6 @@
 package controller
 
-import (
-	"workout-training-api/internal/postgres/db_types/workout"
-)
+import "time"
 
 type ListWorkoutsReq interface {
 	GetUserID() string
