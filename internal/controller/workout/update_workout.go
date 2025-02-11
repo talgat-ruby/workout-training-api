@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"time"
 	"workout-training-api/internal/constant"
-	"workout-training-api/internal/postgres/db_types/workout"
 	"workout-training-api/internal/types/controller"
 )
 
@@ -15,15 +14,15 @@ func (w *WorkoutController) UpdateWorkout(ctx context.Context, req controller.Up
 		return nil, fmt.Errorf("user not authenticated")
 	}
 
-	exercises := make([]string, 0, len(req.GetExercises()))
+	exerciseIDs := make([]string, 0, len(req.GetExercises()))
 	for _, e := range req.GetExercises() {
-		exercises = append(exercises, e.GetID())
+		exerciseIDs = append(exerciseIDs, e.GetID())
 	}
 
-	workout := &WorkoutUp{
+	workout := &WorkoutUP{
 		ID:        req.GetID(),
 		UserID:    userID,
-		Exercises: exercises,
+		Exercises: exerciseIDs,
 		Comments:  req.GetComments(),
 	}
 
@@ -35,7 +34,7 @@ func (w *WorkoutController) UpdateWorkout(ctx context.Context, req controller.Up
 	return &updateWorkoutResponse{}, nil
 }
 
-type WorkoutUp struct {
+type WorkoutUP struct {
 	ID            string
 	UserID        string
 	Name          string
@@ -47,3 +46,19 @@ type WorkoutUp struct {
 }
 
 type updateWorkoutResponse struct{}
+
+func (w *WorkoutUP) GetComments() []string {
+	return w.Comments
+}
+
+func (w *WorkoutUP) GetExerciseIDs() []string {
+	return w.Exercises
+}
+
+func (w *WorkoutUP) GetID() string {
+	return w.ID
+}
+
+func (w *WorkoutUP) GetUserID() string {
+	return w.UserID
+}

@@ -16,17 +16,20 @@ func (w *WorkoutController) CreateWorkout(ctx context.Context, req controller.Cr
 	if !ok {
 		return nil, fmt.Errorf("user not authenticated")
 	}
+	exercises := make([]workout.Exercise, 0, len(req.GetExercises()))
 
-	exerciseIDs := make([]workout.Exercise, 0, len(req.GetExercises()))
 	for _, e := range req.GetExercises() {
-		exerciseIDs = append(exerciseIDs, workout.Exercise{
-			ExerciseID: e.GetID(),
+		exercises = append(exercises, workout.Exercise{
+			ExerciseID:   e.GetID(),   
+			Name: e.GetName(), 
 		})
 	}
-
 	workout := &Workout{
 		UserID:        userID,
-		Exercises:     exerciseIDs,
+		Name:          req.GetName(),
+		Description:   req.GetDescription(),
+		Status:        req.GetStatus(),
+		Exercises:     exercises,
 		ScheduledDate: req.ScheduledDate(),
 	}
 
@@ -59,6 +62,10 @@ func (w *Workout) GetUserID() string {
 }
 
 func (w *Workout) GetExerciseIDs() []workout.Exercise {
+	exerciseIDs := make([]string, 0, len(w.Exercises))
+	for _, e := range w.Exercises {
+		exerciseIDs = append(exerciseIDs, e.ExerciseID)
+	}
 	return w.Exercises
 }
 

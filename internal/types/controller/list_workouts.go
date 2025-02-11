@@ -7,7 +7,7 @@ type ListWorkoutsReq interface {
 }
 
 type ListWorkoutsResp interface {
-	GetWorkouts() []Workout
+	GetWorkouts() []Workouts
 }
 
 type Workouts interface {
