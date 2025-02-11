@@ -1,6 +1,15 @@
 package database
 
-import "context"
+import (
+	"context"
+	"fmt"
+)
+
+type User struct {
+	ID           uint   `gorm:"primaryKey"`
+	Email        string `gorm:"unique"`
+	PasswordHash string
+}
 
 type CreateUserReq interface {
 	GetEmail() string
@@ -20,16 +29,9 @@ func (r createUserResp) GetID() string {
 }
 
 func (d *Database) CreateUser(ctx context.Context, req CreateUserReq) (CreateUserResp, error) {
-	var id string
-	err := d.DB.QueryRowContext(ctx, `
-		INSERT INTO users (email, password_hash)
-		VALUES ($1, $2) RETURNING id`,
-		req.GetEmail(), req.GetPasswordHash(),
-	).Scan(&id)
-
-	if err != nil {
+	user := User{Email: req.GetEmail(), PasswordHash: req.GetPasswordHash()}
+	if err := d.DB.WithContext(ctx).Create(&user).Error; err != nil {
 		return nil, err
 	}
-
-	return createUserResp{ID: id}, nil
+	return createUserResp{ID: fmt.Sprintf("%d", user.ID)}, nil
 }
