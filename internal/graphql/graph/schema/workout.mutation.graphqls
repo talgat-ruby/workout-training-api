@@ -1,0 +1,43 @@
+extend type Query {
+    listWorkouts: [Workout!]!
+}
+
+extend type Mutation {
+    createWorkout(name: String!, description: String!, exercises: [ExerciseInput]!, scheduledTime: String!): Boolean!
+    deleteWorkout(workoutID: ID!): Boolean!
+    updateWorkout(workout: WorkoutInput!): ID!
+}
+
+type Workout {
+    id: ID!
+    name: String!
+    exercises: [Exercise]!
+    description: String!
+    scheduledTimes: Int!
+}
+
+type Exercise {
+    id:  ID!
+    name: String!
+    category: String!
+    repetitions: Int!
+    sets: Int!
+    weight: Float!
+}
+
+input WorkoutInput {
+    id: ID!
+    name: String!
+    exercises: [ExerciseInput]!
+    description: String!
+    scheduledTimes: Int!
+}
+
+input ExerciseInput {
+    id:  ID!
+    name: String!
+    category: String!
+    repetitions: Int!
+    sets: Int!
+    weight: Float!
+}
