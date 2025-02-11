@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package workout_training_api.ping.v1;
+
+option go_package="workout-training-api/internal/grpc/generated/workout-training-api/registration/v1";
+
+import "workout-training-api/registration/v1/sign_in.proto";
+import "workout-training-api/registration/v1/sign_up.proto";
+
+
+service RegistrationService{
+  rpc SignUp(SignUpRequest) returns (SignUpResponse);
+  rpc SignIn(SignInRequest) returns (SignInResponse);
+}

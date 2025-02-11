@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package workout_training_api.ping.v1;
+
+option go_package = "workout-training-api/internal/grpc/generated/workout-training-api/ping/v1";
+
+message PingRequest {
+  string message = 1;
+}
+
+message PingResponse {
+  string message = 1;
+}

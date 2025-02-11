@@ -1,5 +1,6 @@
 package database
 
+<<<<<<< HEAD
 import (
 	"context"
 	"fmt"
@@ -10,14 +11,21 @@ type User struct {
 	Email        string `gorm:"unique"`
 	PasswordHash string
 }
+=======
+import "time"
+>>>>>>> 12012e7eedb63c6cad288001c5cd429cb4ec7dde
 
 type CreateUserReq interface {
 	GetEmail() string
 	GetPasswordHash() string
+	GetSalt() string
 }
 
 type CreateUserResp interface {
 	GetID() string
+	GetEmail() string
+	GetCreatedAt() time.Time
+	GetUpdatedAt() time.Time
 }
 
 type createUserResp struct {

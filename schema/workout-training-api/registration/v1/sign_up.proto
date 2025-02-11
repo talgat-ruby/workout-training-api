@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package workout_training_api.ping.v1;
+
+option go_package="workout-training-api/internal/grpc/generated/workout-training-api/registration/v1";
+
+
+message SignUpRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message SignUpResponse {
+  string token = 1;
+}

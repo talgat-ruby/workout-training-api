@@ -2,19 +2,31 @@ package database
 
 import (
 	"context"
+<<<<<<< HEAD
 	"database/sql"
 	"fmt"
+=======
+>>>>>>> 12012e7eedb63c6cad288001c5cd429cb4ec7dde
 )
 
 var DB *gorm.DB
 
 type UserService interface {
 	CreateUser(context.Context, CreateUserReq) (CreateUserResp, error)
-	FindUser(context.Context, FindUserReq) (FindUserResp, error)
+	FindUserByEmail(context.Context, FindUserReq) (FindUserResp, error)
 }
 
+//type CreateWorkoutReq interface {
+//	GetName() string
+//	GetDescription() string
+//	GetExercises() []workout.Exercise
+//	GetStatus() constant.WorkoutStatus
+//	GetDate() time.Time
+//	GetScheduledDate() []time.Time
+//}
+
 type Exercise interface {
-	CreateExercise(context.Context, CreateExerciseReq) (CreateWorkoutResp, error)
+	CreateExercise(context.Context, CreateExerciseReq) (CreateExerciseResp, error)
 	UpdateExercise(context.Context, UpdateExerciseReq) (UpdateExerciseResp, error)
 	DeleteExercise(context.Context, DeleteExerciseReq) (DeleteExerciseResp, error)
 	ListExpense(context.Context, ListExerciseReq) (ListWorkoutResp, error)
@@ -28,6 +40,7 @@ type Workout interface {
 	GenerateWorkoutReports(context.Context, GenerateWorkoutReportsReq) (GenerateWorkoutReportsRes, error)
 }
 
+<<<<<<< HEAD
 type Database struct {
 	DB *sql.DB
 }
@@ -46,4 +59,10 @@ func InitDB() (*Database, error) {
 
 	fmt.Println("Connected to the database")
 	return &Database{DB: db}, nil
+=======
+type Database interface {
+	User
+	Exercise
+	Workout
+>>>>>>> 12012e7eedb63c6cad288001c5cd429cb4ec7dde
 }
