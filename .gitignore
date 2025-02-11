@@ -27,5 +27,8 @@ go.work.sum
 # idea
 .idea
 
-# db data
+
+.env
+
 db-data
+
