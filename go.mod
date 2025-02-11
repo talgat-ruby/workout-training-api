@@ -2,17 +2,6 @@ module workout-training-api
 
 go 1.23.5
 
-<<<<<<< HEAD
-require github.com/jackc/pgx/v5 v5.7.2
-
-require (
-	github.com/jackc/pgpassfile v1.0.0 // indirect
-	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
-	github.com/jackc/puddle/v2 v2.2.2 // indirect
-	golang.org/x/crypto v0.31.0 // indirect
-	golang.org/x/sync v0.10.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
-=======
 require (
 	github.com/99designs/gqlgen v0.17.64
 	github.com/golang-jwt/jwt/v5 v5.2.1
@@ -47,5 +36,4 @@ require (
 	golang.org/x/tools v0.24.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 
->>>>>>> 12012e7eedb63c6cad288001c5cd429cb4ec7dde
 )
