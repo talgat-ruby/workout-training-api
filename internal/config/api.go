@@ -11,10 +11,9 @@ type APIConfig struct {
 	TokenSecret string
 	Pepper      string
 
-	Rest        *APIRestConfig
-	GraphQL     *APIGraphQLConfig
-	Grpc        *APIGrpcConfig
-
+	Rest    *APIRestConfig
+	GraphQL *APIGraphQLConfig
+	Grpc    *APIGrpcConfig
 }
 
 func newApiConfig(ctx context.Context) *APIConfig {
@@ -23,8 +22,7 @@ func newApiConfig(ctx context.Context) *APIConfig {
 		Pepper:      os.Getenv("API_PEPPER"),
 		Rest:        newApiRestConfig(ctx),
 		GraphQL:     newApiGraphQLConfig(ctx),
-		Grpc:        newAPIGrpcConfig(ctx),
-
+		Grpc:        newAPiGrpcConfig(ctx),
 	}
 
 	flag.StringVar(&c.TokenSecret, "api-token-secret", c.TokenSecret, "api token secret [API_TOKEN_SECRET]")
@@ -32,7 +30,6 @@ func newApiConfig(ctx context.Context) *APIConfig {
 
 	return c
 }
-
 
 type APIRestConfig struct {
 	Host string
@@ -72,12 +69,10 @@ func newApiGraphQLConfig(_ context.Context) *APIGraphQLConfig {
 	return c
 }
 
-
 type APIGrpcConfig struct {
 	Host string
 	Port int
 }
-
 
 func newAPiGrpcConfig(_ context.Context) *APIGrpcConfig {
 
