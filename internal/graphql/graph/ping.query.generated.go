@@ -21,7 +21,7 @@ type MutationResolver interface {
 	GetPing(ctx context.Context) (*model.Ping, error)
 	SignIn(ctx context.Context, email string, password string) (*model.SignInResp, error)
 	SignUp(ctx context.Context, email string, password string) (*model.SignUpResp, error)
-	CreateWorkout(ctx context.Context, name string, description string, exercises []*model.ExerciseInput, scheduledTime string) (bool, error)
+	CreateWorkout(ctx context.Context, name string, description string, exercises []*model.ExerciseInput, status string, scheduledDate []string) (bool, error)
 	DeleteWorkout(ctx context.Context, workoutID string) (bool, error)
 	UpdateWorkout(ctx context.Context, workout model.WorkoutInput) (string, error)
 }
@@ -52,11 +52,16 @@ func (ec *executionContext) field_Mutation_createWorkout_args(ctx context.Contex
 		return nil, err
 	}
 	args["exercises"] = arg2
-	arg3, err := ec.field_Mutation_createWorkout_argsScheduledTime(ctx, rawArgs)
+	arg3, err := ec.field_Mutation_createWorkout_argsStatus(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["scheduledTime"] = arg3
+	args["status"] = arg3
+	arg4, err := ec.field_Mutation_createWorkout_argsScheduledDate(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["scheduledDate"] = arg4
 	return args, nil
 }
 func (ec *executionContext) field_Mutation_createWorkout_argsName(
@@ -98,16 +103,29 @@ func (ec *executionContext) field_Mutation_createWorkout_argsExercises(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Mutation_createWorkout_argsScheduledTime(
+func (ec *executionContext) field_Mutation_createWorkout_argsStatus(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (string, error) {
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("scheduledTime"))
-	if tmp, ok := rawArgs["scheduledTime"]; ok {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("status"))
+	if tmp, ok := rawArgs["status"]; ok {
 		return ec.unmarshalNString2string(ctx, tmp)
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createWorkout_argsScheduledDate(
+	ctx context.Context,
+	rawArgs map[string]any,
+) ([]string, error) {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("scheduledDate"))
+	if tmp, ok := rawArgs["scheduledDate"]; ok {
+		return ec.unmarshalOString2ᚕstringᚄ(ctx, tmp)
+	}
+
+	var zeroVal []string
 	return zeroVal, nil
 }
 
@@ -447,7 +465,7 @@ func (ec *executionContext) _Mutation_createWorkout(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateWorkout(rctx, fc.Args["name"].(string), fc.Args["description"].(string), fc.Args["exercises"].([]*model.ExerciseInput), fc.Args["scheduledTime"].(string))
+		return ec.resolvers.Mutation().CreateWorkout(rctx, fc.Args["name"].(string), fc.Args["description"].(string), fc.Args["exercises"].([]*model.ExerciseInput), fc.Args["status"].(string), fc.Args["scheduledDate"].([]string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -690,8 +708,10 @@ func (ec *executionContext) fieldContext_Query_listWorkouts(_ context.Context, f
 				return ec.fieldContext_Workout_exercises(ctx, field)
 			case "description":
 				return ec.fieldContext_Workout_description(ctx, field)
-			case "scheduledTimes":
-				return ec.fieldContext_Workout_scheduledTimes(ctx, field)
+			case "scheduledDate":
+				return ec.fieldContext_Workout_scheduledDate(ctx, field)
+			case "status":
+				return ec.fieldContext_Workout_status(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Workout", field.Name)
 		},

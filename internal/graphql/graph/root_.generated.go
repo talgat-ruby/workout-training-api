@@ -46,7 +46,9 @@ type DirectiveRoot struct {
 type ComplexityRoot struct {
 	Exercise struct {
 		Category    func(childComplexity int) int
+		Description func(childComplexity int) int
 		ID          func(childComplexity int) int
+		MuscleGroup func(childComplexity int) int
 		Name        func(childComplexity int) int
 		Repetitions func(childComplexity int) int
 		Sets        func(childComplexity int) int
@@ -54,7 +56,7 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateWorkout func(childComplexity int, name string, description string, exercises []*model.ExerciseInput, scheduledTime string) int
+		CreateWorkout func(childComplexity int, name string, description string, exercises []*model.ExerciseInput, status string, scheduledDate []string) int
 		DeleteWorkout func(childComplexity int, workoutID string) int
 		GetPing       func(childComplexity int) int
 		SignIn        func(childComplexity int, email string, password string) int
@@ -80,11 +82,12 @@ type ComplexityRoot struct {
 	}
 
 	Workout struct {
-		Description    func(childComplexity int) int
-		Exercises      func(childComplexity int) int
-		ID             func(childComplexity int) int
-		Name           func(childComplexity int) int
-		ScheduledTimes func(childComplexity int) int
+		Description   func(childComplexity int) int
+		Exercises     func(childComplexity int) int
+		ID            func(childComplexity int) int
+		Name          func(childComplexity int) int
+		ScheduledDate func(childComplexity int) int
+		Status        func(childComplexity int) int
 	}
 }
 
@@ -114,12 +117,26 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Exercise.Category(childComplexity), true
 
+	case "Exercise.description":
+		if e.complexity.Exercise.Description == nil {
+			break
+		}
+
+		return e.complexity.Exercise.Description(childComplexity), true
+
 	case "Exercise.id":
 		if e.complexity.Exercise.ID == nil {
 			break
 		}
 
 		return e.complexity.Exercise.ID(childComplexity), true
+
+	case "Exercise.muscleGroup":
+		if e.complexity.Exercise.MuscleGroup == nil {
+			break
+		}
+
+		return e.complexity.Exercise.MuscleGroup(childComplexity), true
 
 	case "Exercise.name":
 		if e.complexity.Exercise.Name == nil {
@@ -159,7 +176,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateWorkout(childComplexity, args["name"].(string), args["description"].(string), args["exercises"].([]*model.ExerciseInput), args["scheduledTime"].(string)), true
+		return e.complexity.Mutation.CreateWorkout(childComplexity, args["name"].(string), args["description"].(string), args["exercises"].([]*model.ExerciseInput), args["status"].(string), args["scheduledDate"].([]string)), true
 
 	case "Mutation.deleteWorkout":
 		if e.complexity.Mutation.DeleteWorkout == nil {
@@ -279,12 +296,19 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Workout.Name(childComplexity), true
 
-	case "Workout.scheduledTimes":
-		if e.complexity.Workout.ScheduledTimes == nil {
+	case "Workout.scheduledDate":
+		if e.complexity.Workout.ScheduledDate == nil {
 			break
 		}
 
-		return e.complexity.Workout.ScheduledTimes(childComplexity), true
+		return e.complexity.Workout.ScheduledDate(childComplexity), true
+
+	case "Workout.status":
+		if e.complexity.Workout.Status == nil {
+			break
+		}
+
+		return e.complexity.Workout.Status(childComplexity), true
 
 	}
 	return 0, false

@@ -3,7 +3,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    createWorkout(name: String!, description: String!, exercises: [ExerciseInput]!, scheduledTime: String!): Boolean!
+    createWorkout(name: String!, description: String!, exercises: [ExerciseInput]!, status: String!, scheduledDate: [String!]): Boolean!
     deleteWorkout(workoutID: ID!): Boolean!
     updateWorkout(workout: WorkoutInput!): ID!
 }
@@ -13,16 +13,19 @@ type Workout {
     name: String!
     exercises: [Exercise]!
     description: String!
-    scheduledTimes: Int!
+    scheduledDate: [String!]
+    status: String!
 }
 
 type Exercise {
     id:  ID!
     name: String!
+    description: String!
+    muscleGroup: String!
     category: String!
     repetitions: Int!
     sets: Int!
-    weight: Float!
+    weight:  Int!
 }
 
 input WorkoutInput {
@@ -30,14 +33,17 @@ input WorkoutInput {
     name: String!
     exercises: [ExerciseInput]!
     description: String!
-    scheduledTimes: Int!
+    scheduledDate: [String!]
+    status: String!
 }
 
 input ExerciseInput {
     id:  ID!
     name: String!
+    description: String!
+    muscleGroup: String!
     category: String!
     repetitions: Int!
     sets: Int!
-    weight: Float!
+    weight:  Int!
 }
