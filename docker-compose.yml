@@ -1,16 +1,18 @@
-version: '3.9'
+version: '3.8'
 
 services:
   postgres:
-    container_name: workout_postgres_container
-    image: postgres:14.5
-    ports:
-      - 5432:5432
+    image: postgres:latest
+    container_name: postgres_container
+    restart: always
     environment:
-      POSTGRES_DB: "workoutdb"
-      POSTGRES_PASSWORD: "admin"
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  pgdata:
+  postgres_data:

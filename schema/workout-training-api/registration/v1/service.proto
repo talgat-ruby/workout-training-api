@@ -2,11 +2,10 @@ syntax = "proto3";
 
 package workout_training_api.ping.v1;
 
-option go_package="github.com/talgat-ruby/workout-training-api/internal/grpc/generated/workout-training-api/registration/v1";
+option go_package="workout-training-api/internal/grpc/generated/workout-training-api/registration/v1";
 
-import "google/protobuf/timestamp.proto";
-import "sign_in.proto";
-import "sign_up.proto";
+import "workout-training-api/registration/v1/sign_in.proto";
+import "workout-training-api/registration/v1/sign_up.proto";
 
 
 service RegistrationService{

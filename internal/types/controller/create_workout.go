@@ -1,17 +1,29 @@
 package controller
 
-import "time"
+import (
+	"time"
+
+	"workout-training-api/internal/constant"
+)
 
 type CreateWorkoutReq interface {
-	GetExercises() []Exercise
-	GetDate() time.Time
-}
-
-type CreateWorkoutResp interface{}
-
-type Exercise interface {
 	GetName() string
 	GetDescription() string
+	GetExercises() []Exercise
+	GetStatus() constant.WorkoutStatus
+	ScheduledDate() time.Time
+}
+
+type CreateWorkoutResp interface {
+	GetID() string
+	GetStatus() constant.WorkoutStatus
+}
+
+type Exercise interface {
+	GetID() string
+	GetName() string
+	GetDescription() string
+	GetMuscleGroup() string
 	GetCategory() string
 	GetRepetitions() int
 	GetSets() int

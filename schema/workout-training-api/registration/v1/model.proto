@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package workout_training_api.ping.v1;
 
-option go_package="github.com/talgat-ruby/workout-training-api/internal/grpc/generated/workout-training-api/registration/v1";
+option go_package="workout-training-api/internal/grpc/generated/workout-training-api/registration/v1";
 
 import "google/protobuf/timestamp.proto";
 
@@ -10,7 +10,7 @@ message User {
   string user_id = 1;
   string email = 2;
   string hashed_password = 3;
-  string full_name = 4;
+  string salt = 4;
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
 }

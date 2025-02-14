@@ -6,6 +6,8 @@ import (
 	"os"
 	"workout-training-api/internal/constant"
 
+	"workout-training-api/internal/constant"
+
 	"github.com/joho/godotenv"
 )
 
