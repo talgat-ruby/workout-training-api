@@ -4,9 +4,9 @@ import (
 	"context"
 	"flag"
 	"os"
+	"workout-training-api/internal/constant"
 
 	"github.com/joho/godotenv"
-	"github.com/talgat-ruby/lessons-go/projects/expense-tracker/internal/constant"
 )
 
 type Config struct {
