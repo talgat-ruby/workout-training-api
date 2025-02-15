@@ -9,4 +9,4 @@ message DeleteWorkoutRequest {
   string workout_id = 1;
 }
 
-message WorkoutDeleteResponse {}
+message DeleteWorkoutResponse {}

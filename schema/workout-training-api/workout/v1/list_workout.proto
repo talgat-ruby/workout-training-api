@@ -15,5 +15,13 @@ message ListWorkoutsRequest {
 }
 
 message ListWorkoutsResponse {
-  repeated Workout workouts = 1;
+  repeated WorkoutView workouts = 1;
+}
+
+
+message WorkoutView {
+  string workout_id = 1;  // Maps to GetID()
+  repeated Exercise exercises = 2;  // Maps to GetExercises()
+  google.protobuf.Timestamp workout_date = 3;  // Maps to GetDate()
+  string comments = 4;  // Maps to GetComments() - already aggregated as a single string
 }

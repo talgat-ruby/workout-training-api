@@ -13,7 +13,7 @@ message Workout {
   string description = 4;
   repeated Exercise exercises = 5;
   Status status = 6;
-  repeated Comment comments = 7;
+  repeated string comments = 7;
   repeated google.protobuf.Timestamp scheduled_date = 8;
   google.protobuf.Timestamp created_at = 9;
   google.protobuf.Timestamp updated_at = 10;
@@ -21,16 +21,17 @@ message Workout {
 
 message Exercise {
   string exercise_id = 1;
-  string workoit_id = 2;
+  string workout_id = 2;
   MuscleGroup muscle_group = 3;
   Category category = 4;
-  string name = 5;
-  uint32 sets = 6;
-  uint32 reps_per_set = 7;
-  float weight_kg = 8;
-  string notes = 9;
-  google.protobuf.Timestamp created_at = 10;
-  google.protobuf.Timestamp updated_at = 11;
+  string description = 5;
+  string name = 6;
+  uint32 sets = 7;
+  uint32 reps_per_set = 8;
+  float weight_kg = 9;
+  string notes = 10;
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
 }
 
 
@@ -70,6 +71,3 @@ enum Category {
   CATEGORY_BALANCE = 4;
 }
 
-message Comment {
-  string comment=1;
-}

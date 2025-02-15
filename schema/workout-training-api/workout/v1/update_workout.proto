@@ -9,13 +9,8 @@ import "workout-training-api/workout/v1/model.proto";
 
 message UpdateWorkoutRequest {
   string workout_id = 1;
-  optional string name = 2;
-  optional string description = 3;
-  repeated Exercise exercises = 4;
-  optional Status status = 5;
-  optional google.protobuf.Timestamp scheduled_for = 6;
+  repeated Exercise exercises = 2;
+  repeated string comments = 3;
 }
 
-message UpdateWorkoutResponse {
-  Workout workout = 1;
-}
+message UpdateWorkoutResponse {}

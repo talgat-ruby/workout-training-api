@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package workout_training_api.ping.v1;
+
+import "workout-training-api/workout/v1/model.proto";
+
+import "google/protobuf/timestamp.proto";
+
+option go_package="workout-training-api/internal/grpc/generated/workout-training-api/workout/v1";
+
+message ScheduleWorkoutRequest {
+  string workout_id = 1;
+  google.protobuf.Timestamp scheduled_date = 2;
+}
+
+message ScheduleWorkoutResponse {}

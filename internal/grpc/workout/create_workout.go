@@ -8,7 +8,7 @@ import (
 	"time"
 	"workout-training-api/internal/constant"
 	workoutv1 "workout-training-api/internal/grpc/generated/workout-training-api/workout/v1"
-	"workout-training-api/internal/postgres/db_types/workout"
+	"workout-training-api/internal/types/controller"
 )
 
 func (w *Workout) CreateWorkout(ctx context.Context, req *workoutv1.CreateWorkoutRequest) (*workoutv1.CreateWorkoutResponse, error) {
@@ -28,12 +28,12 @@ func (w *Workout) CreateWorkout(ctx context.Context, req *workoutv1.CreateWorkou
 	log.InfoContext(
 		ctx,
 		"workout created successfully",
-		slog.String("workout_id", workout.GetWorkout().WorkoutID),
+		slog.String("workout_id", workout.GetID()),
 	)
 
 	return &workoutv1.CreateWorkoutResponse{
 		Workout: &workoutv1.Workout{
-			WorkoutId:     workout.GetWorkout().WorkoutID,
+			WorkoutId:     workout.GetID(),
 			Name:          req.GetName(),
 			Description:   req.GetDescription(),
 			Status:        req.GetStatus(),
@@ -47,27 +47,51 @@ type ctrlReqCreateWorkout struct {
 	*workoutv1.CreateWorkoutRequest
 }
 
+func (w *ctrlReqCreateWorkout) ScheduledDate() time.Time {
+	//TODO implement me
+	panic("implement me")
+}
+
 func newCtrlReqCreateWorkout(req *workoutv1.CreateWorkoutRequest) *ctrlReqCreateWorkout {
 	return &ctrlReqCreateWorkout{req}
 }
 
-func (w *ctrlReqCreateWorkout) GetExercises() []workout.Exercise {
-	exercises := make([]workout.Exercise, 0, len(w.CreateWorkoutRequest.GetExercises()))
+type Exercise struct {
+	ID          string
+	Name        string
+	Description string
+	MuscleGroup string
+	Category    string
+	Repetitions int
+	Sets        int
+	Weight      float64
+}
+
+func (e *Exercise) GetID() string          { return e.ID }
+func (e *Exercise) GetName() string        { return e.Name }
+func (e *Exercise) GetDescription() string { return e.Description }
+func (e *Exercise) GetMuscleGroup() string { return e.MuscleGroup }
+func (e *Exercise) GetCategory() string    { return e.Category }
+func (e *Exercise) GetRepetitions() int    { return e.Repetitions }
+func (e *Exercise) GetSets() int           { return e.Sets }
+func (e *Exercise) GetWeight() float64     { return e.Weight }
+
+func (w *ctrlReqCreateWorkout) GetExercises() []controller.Exercise {
+	exercises := make([]controller.Exercise, 0, len(w.CreateWorkoutRequest.GetExercises()))
 	for _, ex := range w.CreateWorkoutRequest.GetExercises() {
-		exercises = append(exercises, workout.Exercise{
-			ExerciseID:  ex.GetExerciseId(),
+		exercises = append(exercises, &Exercise{
+			ID:          ex.GetExerciseId(),
 			Name:        ex.GetName(),
+			Description: ex.GetNotes(),
+			MuscleGroup: string(ex.GetMuscleGroup()),
+			Category:    string(ex.GetCategory()),
+			Repetitions: int(ex.GetRepsPerSet()),
 			Sets:        int(ex.GetSets()),
-			RepsPerSet:  int(ex.GetRepsPerSet()),
-			WeightKg:    float64(ex.GetWeightKg()),
-			Notes:       ex.GetNotes(),
-			MuscleGroup: constant.MuscleGroup(string(ex.GetMuscleGroup())),
-			Category:    constant.ExerciseCategory(string(ex.GetCategory())),
+			Weight:      float64(ex.GetWeightKg()),
 		})
 	}
 	return exercises
 }
-
 func (w *ctrlReqCreateWorkout) GetStatus() constant.WorkoutStatus {
 	return constant.WorkoutStatus(w.CreateWorkoutRequest.GetStatus())
 }

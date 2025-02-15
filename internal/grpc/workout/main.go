@@ -2,13 +2,12 @@ package workout
 
 import (
 	"log/slog"
-	pingSrvc "workout-training-api/internal/grpc/generated/workout-training-api/ping/v1"
-	"workout-training-api/internal/types/controller"
+	workoutSrvc "workout-training-api/internal/grpc/generated/workout-training-api/workout/v1"
+	controller "workout-training-api/internal/types/controller"
 )
 
-// CreateWorkout implements the CreateWorkout gRPC method
 type Workout struct {
-	pingSrvc.UnimplementedPingServiceServer
+	workoutSrvc.UnimplementedWorkoutServiceServer
 	log  *slog.Logger
 	ctrl controller.Controller
 }
