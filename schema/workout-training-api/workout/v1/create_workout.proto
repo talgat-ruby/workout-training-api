@@ -18,7 +18,8 @@ message CreateWorkoutRequest {
 }
 
 message CreateWorkoutResponse {
-  Workout workout = 1;
+  string workout_id = 1;
+  string status = 2;
 }
 
 

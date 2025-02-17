@@ -32,14 +32,8 @@ func (w *Workout) CreateWorkout(ctx context.Context, req *workoutv1.CreateWorkou
 	)
 
 	return &workoutv1.CreateWorkoutResponse{
-		Workout: &workoutv1.Workout{
-			WorkoutId:     workout.GetID(),
-			Name:          req.GetName(),
-			Description:   req.GetDescription(),
-			Status:        req.GetStatus(),
-			Exercises:     req.GetExercises(),
-			ScheduledDate: req.GetScheduledDate(),
-		},
+		WorkoutId: workout.GetID(),
+		Status:    string(req.GetStatus()),
 	}, nil
 }
 
@@ -48,8 +42,11 @@ type ctrlReqCreateWorkout struct {
 }
 
 func (w *ctrlReqCreateWorkout) ScheduledDate() time.Time {
-	//TODO implement me
-	panic("implement me")
+	scheduledDates := w.CreateWorkoutRequest.GetScheduledDate()
+	if len(scheduledDates) == 0 {
+		return time.Time{}
+	}
+	return scheduledDates[0].AsTime()
 }
 
 func newCtrlReqCreateWorkout(req *workoutv1.CreateWorkoutRequest) *ctrlReqCreateWorkout {
@@ -114,6 +111,9 @@ func validateCreateWorkoutRequest(req *workoutv1.CreateWorkoutRequest) error {
 	}
 	if len(req.GetExercises()) == 0 {
 		return status.Error(codes.InvalidArgument, "at least one exercise is required")
+	}
+	if len(req.GetScheduledDate()) == 0 {
+		return status.Error(codes.InvalidArgument, "scheduled date is required")
 	}
 	return nil
 }
