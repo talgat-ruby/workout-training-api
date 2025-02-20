@@ -7,11 +7,11 @@ import (
 )
 
 type ExerciseModel struct {
-	conf   *config.PostgresConfig
+	conf   *config.AskarPostgresConfig
 	logger *slog.Logger
 	db     *sql.DB
 }
 
-func New(conf *config.PostgresConfig, logger *slog.Logger, db *sql.DB) *ExerciseModel {
+func New(conf *config.AskarPostgresConfig, logger *slog.Logger, db *sql.DB) *ExerciseModel {
 	return &ExerciseModel{conf: conf, logger: logger, db: db}
 }

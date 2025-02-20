@@ -3,8 +3,8 @@ package askar_postgres
 import (
 	"context"
 	"database/sql"
-	_ "database/sql"
 	"fmt"
+	_ "github.com/lib/pq"
 	"log/slog"
 	"time"
 	"workout-training-api/internal/askar-postgres/model"
@@ -15,24 +15,28 @@ type Postgres struct {
 	*model.Model
 }
 
-func New(conf *config.PostgresConfig, logger *slog.Logger) (*Postgres, error) {
+func New(conf *config.AskarPostgresConfig, logger *slog.Logger) (*Postgres, error) {
 	db, err := NewDatabase(conf)
 	if err != nil {
 		return nil, err
 	}
+	//defer db.Close()
 
 	return &Postgres{
 		Model: model.New(conf, logger.With(slog.String("module", "model")), db),
 	}, nil
 }
 
-func NewDatabase(conf *config.PostgresConfig) (*sql.DB, error) {
-	psqlInfo := fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		conf.Host, conf.Port, conf.User, conf.Password, conf.Name,
-	)
-	db, err := sql.Open("postgres", psqlInfo)
+func NewDatabase(conf *config.AskarPostgresConfig) (*sql.DB, error) {
+	//psqlInfo := fmt.Sprintf(
+	//	"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+	//	conf.Host, conf.Port, conf.User, conf.Password, conf.Name,
+	//)
+	fmt.Println("new database")
+	fmt.Println(conf.DSN)
+	db, err := sql.Open("postgres", conf.DSN)
 	if err != nil {
+		fmt.Println("errror")
 		return nil, err
 	}
 

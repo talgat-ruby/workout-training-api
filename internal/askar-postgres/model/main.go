@@ -11,7 +11,7 @@ type Model struct {
 	*exercise.ExerciseModel
 }
 
-func New(conf *config.PostgresConfig, logger *slog.Logger, db *sql.DB) *Model {
+func New(conf *config.AskarPostgresConfig, logger *slog.Logger, db *sql.DB) *Model {
 
 	return &Model{ExerciseModel: exercise.New(conf, logger.With(slog.String("component", "exercise")), db)}
 }
