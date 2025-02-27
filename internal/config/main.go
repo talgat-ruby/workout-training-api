@@ -3,16 +3,16 @@ package config
 import (
 	"context"
 	"flag"
-	"os"
-
 	"github.com/joho/godotenv"
+	"os"
 	"workout-training-api/internal/constant"
 )
 
 type Config struct {
-	ENV      constant.Environment
-	API      *APIConfig
-	Postgres *PostgresConfig
+	ENV           constant.Environment
+	API           *APIConfig
+	Postgres      *PostgresConfig
+	AskarPostgres *AskarPostgresConfig
 }
 
 func New(ctx context.Context) *Config {
@@ -27,9 +27,10 @@ func New(ctx context.Context) *Config {
 	load(env)
 
 	conf := &Config{
-		ENV:      env,
-		API:      newApiConfig(ctx),
-		Postgres: newPostgresConfig(ctx),
+		ENV:           env,
+		API:           newApiConfig(ctx),
+		Postgres:      newPostgresConfig(ctx),
+		AskarPostgres: newAskarPostgresConfig(ctx),
 	}
 
 	flag.Parse()

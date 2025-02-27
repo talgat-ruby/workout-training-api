@@ -1,6 +1,5 @@
 package constant
 
-
 type Environment string
 
 const (
