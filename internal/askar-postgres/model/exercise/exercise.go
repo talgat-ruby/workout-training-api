@@ -9,10 +9,17 @@ type Exercise struct {
 	ID           int64
 	Name         string
 	Description  string
+	Repetitions  int32
+	Sets         int32
+	Weight       int32
 	MuscleGroups []string
 	Categories   []string
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
+}
+
+func (e *Exercise) GetWorkoutID() string {
+	return "id"
 }
 
 func (e *Exercise) GetID() string {
@@ -26,6 +33,12 @@ func (e *Exercise) GetName() string {
 func (e *Exercise) GetDescription() string {
 	return e.Description
 }
+
+func (e *Exercise) GetRepetitions() int32 { return e.Repetitions }
+
+func (e *Exercise) GetSets() int32 { return e.Sets }
+
+func (e *Exercise) GetWeight() int32 { return e.Weight }
 
 func (e *Exercise) GetMuscleGroups() []string {
 	return e.MuscleGroups

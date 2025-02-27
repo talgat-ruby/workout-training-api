@@ -3,7 +3,6 @@ package askar_postgres
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	_ "github.com/lib/pq"
 	"log/slog"
 	"time"
@@ -32,11 +31,8 @@ func NewDatabase(conf *config.AskarPostgresConfig) (*sql.DB, error) {
 	//	"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 	//	conf.Host, conf.Port, conf.User, conf.Password, conf.Name,
 	//)
-	fmt.Println("new database")
-	fmt.Println(conf.DSN)
 	db, err := sql.Open("postgres", conf.DSN)
 	if err != nil {
-		fmt.Println("errror")
 		return nil, err
 	}
 

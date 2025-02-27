@@ -3,12 +3,12 @@ package database
 type CreateExerciseReq interface {
 	GetWorkoutID() string
 	GetName() string
-	GetCategory() string
-	GetMuscleGroup() string
-	GetSets() int
-	GetRepsPerSet() int
-	GetWeightKg() float64
-	GetNotes() string
+	GetDescription() string
+	GetRepetitions() int32
+	GetSets() int32
+	GetWeight() int32
+	GetMuscleGroups() []string
+	GetCategories() []string
 }
 
 type CreateExerciseResp interface{}
