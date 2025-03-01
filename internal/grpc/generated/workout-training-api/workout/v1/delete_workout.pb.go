@@ -65,26 +65,26 @@ func (x *DeleteWorkoutRequest) GetWorkoutId() string {
 	return ""
 }
 
-type WorkoutDeleteResponse struct {
+type DeleteWorkoutResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *WorkoutDeleteResponse) Reset() {
-	*x = WorkoutDeleteResponse{}
+func (x *DeleteWorkoutResponse) Reset() {
+	*x = DeleteWorkoutResponse{}
 	mi := &file_workout_training_api_workout_v1_delete_workout_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *WorkoutDeleteResponse) String() string {
+func (x *DeleteWorkoutResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*WorkoutDeleteResponse) ProtoMessage() {}
+func (*DeleteWorkoutResponse) ProtoMessage() {}
 
-func (x *WorkoutDeleteResponse) ProtoReflect() protoreflect.Message {
+func (x *DeleteWorkoutResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_workout_training_api_workout_v1_delete_workout_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -96,8 +96,8 @@ func (x *WorkoutDeleteResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkoutDeleteResponse.ProtoReflect.Descriptor instead.
-func (*WorkoutDeleteResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeleteWorkoutResponse.ProtoReflect.Descriptor instead.
+func (*DeleteWorkoutResponse) Descriptor() ([]byte, []int) {
 	return file_workout_training_api_workout_v1_delete_workout_proto_rawDescGZIP(), []int{1}
 }
 
@@ -112,8 +112,8 @@ var file_workout_training_api_workout_v1_delete_workout_proto_rawDesc = string([
 	0x67, 0x2e, 0x76, 0x31, 0x22, 0x35, 0x0a, 0x14, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x57, 0x6f,
 	0x72, 0x6b, 0x6f, 0x75, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1d, 0x0a, 0x0a,
 	0x77, 0x6f, 0x72, 0x6b, 0x6f, 0x75, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x09, 0x77, 0x6f, 0x72, 0x6b, 0x6f, 0x75, 0x74, 0x49, 0x64, 0x22, 0x17, 0x0a, 0x15, 0x57,
-	0x6f, 0x72, 0x6b, 0x6f, 0x75, 0x74, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x52, 0x09, 0x77, 0x6f, 0x72, 0x6b, 0x6f, 0x75, 0x74, 0x49, 0x64, 0x22, 0x17, 0x0a, 0x15, 0x44,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x57, 0x6f, 0x72, 0x6b, 0x6f, 0x75, 0x74, 0x52, 0x65, 0x73, 0x70,
 	0x6f, 0x6e, 0x73, 0x65, 0x42, 0x4e, 0x5a, 0x4c, 0x77, 0x6f, 0x72, 0x6b, 0x6f, 0x75, 0x74, 0x2d,
 	0x74, 0x72, 0x61, 0x69, 0x6e, 0x69, 0x6e, 0x67, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x6e, 0x74,
 	0x65, 0x72, 0x6e, 0x61, 0x6c, 0x2f, 0x67, 0x72, 0x70, 0x63, 0x2f, 0x67, 0x65, 0x6e, 0x65, 0x72,
@@ -137,7 +137,7 @@ func file_workout_training_api_workout_v1_delete_workout_proto_rawDescGZIP() []b
 var file_workout_training_api_workout_v1_delete_workout_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_workout_training_api_workout_v1_delete_workout_proto_goTypes = []any{
 	(*DeleteWorkoutRequest)(nil),  // 0: workout_training_api.ping.v1.DeleteWorkoutRequest
-	(*WorkoutDeleteResponse)(nil), // 1: workout_training_api.ping.v1.WorkoutDeleteResponse
+	(*DeleteWorkoutResponse)(nil), // 1: workout_training_api.ping.v1.DeleteWorkoutResponse
 }
 var file_workout_training_api_workout_v1_delete_workout_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type

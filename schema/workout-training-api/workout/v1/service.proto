@@ -8,15 +8,16 @@ import "workout-training-api/workout/v1/create_workout.proto";
 import "workout-training-api/workout/v1/update_workout.proto";
 import "workout-training-api/workout/v1/delete_workout.proto";
 import "workout-training-api/workout/v1/list_workout.proto";
+import "workout-training-api/workout/v1/schedule_workout.proto";
 
 service WorkoutService {
   rpc CreateWorkout (CreateWorkoutRequest) returns (CreateWorkoutResponse);
 
   rpc UpdateWorkout (UpdateWorkoutRequest) returns (UpdateWorkoutResponse);
 
-  rpc DeleteWorkout (DeleteWorkoutRequest) returns (WorkoutDeleteResponse);
+  rpc DeleteWorkout (DeleteWorkoutRequest) returns (DeleteWorkoutResponse);
 
   rpc ListWorkouts (ListWorkoutsRequest) returns (ListWorkoutsResponse);
 
-//  rpc WorkoutReport () returns ();
+  rpc ScheduleWorkout (ScheduleWorkoutRequest) returns (ScheduleWorkoutResponse);
 }

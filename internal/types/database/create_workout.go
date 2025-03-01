@@ -1,14 +1,12 @@
 package database
 
 import (
-<<<<<<< HEAD
+
 	"context"
-	"time"
-=======
 	"time"
 	"workout-training-api/internal/constant"
 	"workout-training-api/internal/postgres/db_types/workout"
->>>>>>> 12012e7eedb63c6cad288001c5cd429cb4ec7dde
+
 )
 
 type CreateWorkoutReq interface {
@@ -20,7 +18,7 @@ type CreateWorkoutReq interface {
 	GetScheduledDate() []time.Time
 }
 
-<<<<<<< HEAD
+
 type CreateWorkoutResp interface{}
 
 func (d *Database) CreateWorkout(ctx context.Context, req CreateWorkoutReq) (CreateWorkoutResp, error) {
@@ -34,10 +32,10 @@ func (d *Database) CreateWorkout(ctx context.Context, req CreateWorkoutReq) (Cre
 	}
 
 	return struct{}{}, nil
-=======
+
 type CreateWorkoutResp interface {
 	GetWorkout() workout.Workout
->>>>>>> 12012e7eedb63c6cad288001c5cd429cb4ec7dde
+
 }
 
 /*
