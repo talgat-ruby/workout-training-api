@@ -22,7 +22,7 @@ type Exercise interface {
 	CreateExercise(context.Context, CreateExerciseReq) (CreateExerciseResp, error)
 	UpdateExercise(context.Context, UpdateExerciseReq) (UpdateExerciseResp, error)
 	DeleteExercise(context.Context, DeleteExerciseReq) (DeleteExerciseResp, error)
-	ListExpense(context.Context, ListExerciseReq) (ListWorkoutResp, error)
+	ListExercise(context.Context, ListExerciseReq) (ListExerciseResp, error)
 }
 
 type Workout interface {

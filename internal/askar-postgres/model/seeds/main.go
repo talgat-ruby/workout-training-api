@@ -2,6 +2,7 @@ package seeds
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	askar_postgres "workout-training-api/internal/askar-postgres"
 	"workout-training-api/internal/askar-postgres/model/exercise"
@@ -63,12 +64,43 @@ func (s *seeder) Populate() error {
 }
 
 func (s *seeder) TestMethods() error {
-	//req := &exercise.Exercise{
-	//	ID: 1,
-	//}
-	//_, err := s.postgres.DeleteExercise(context.Background(), req)
-	//if err != nil {
-	//	slog.Error("Error on deleting exercise", err.Error())
-	//}
+	s.listExercise()
 	return nil
+}
+
+func (s *seeder) deleteExercise() {
+	req := &exercise.Exercise{
+		ID: 1,
+	}
+	_, err := s.postgres.DeleteExercise(context.Background(), req)
+	if err != nil {
+		slog.Error("Error on deleting exercise", err.Error())
+	}
+}
+
+func (s *seeder) listExercise() {
+	res, err := s.postgres.ExerciseModel.ListExercise(context.Background(), nil)
+	if err != nil {
+		slog.Error("Error on list exercise", err.Error())
+	}
+
+	for _, exercise := range res.GetList() {
+		fmt.Printf("exercise id %s and name %s\n", exercise.GetID(), exercise.GetName())
+	}
+}
+
+func (s *seeder) updateExercise() {
+	exercise := &exercise.Exercise{
+		ID:           2,
+		Name:         "Updated Squats",
+		Description:  "Updated A compound exercise that targets the legs and glutes.",
+		MuscleGroups: []string{"Updated Quadriceps", "Hamstrings", "Glutes"},
+		Categories:   []string{"Updated Legs", "Strength"},
+	}
+
+	_, err := s.postgres.UpdateExercise(context.Background(), exercise)
+	if err != nil {
+		slog.Error("Error on update exercise", err.Error())
+	}
+	slog.Info("Exercise updated")
 }

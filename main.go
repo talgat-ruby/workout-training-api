@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 	askar_postgres "workout-training-api/internal/askar-postgres"
+	"workout-training-api/internal/askar-postgres/model/seeds"
 	"workout-training-api/internal/config"
 	"workout-training-api/internal/constant"
 	"workout-training-api/pkg/logger"
@@ -68,10 +69,14 @@ func main() {
 	log := logger.New(conf.ENV != constant.EnvironmentLocal)
 
 	// postgres
-	_, err := askar_postgres.New(conf.AskarPostgres, log)
+	p, err := askar_postgres.New(conf.AskarPostgres, log)
 	if err != nil {
 		log.ErrorContext(ctx, "failed to start postgres", slog.Any("error", err))
 	}
+
+	seeder := seeds.New(p)
+	//seeder.Populate()
+	seeder.TestMethods()
 	//fmt.Print(db)
 	log.InfoContext(ctx, "postgres connection pool established", nil)
 
